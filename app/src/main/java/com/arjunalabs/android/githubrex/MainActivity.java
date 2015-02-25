@@ -21,6 +21,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
+import com.arjunalabs.android.githubrex.model.AssignmentData;
 import com.arjunalabs.android.githubrex.model.Contributor;
 import com.arjunalabs.android.githubrex.model.Data;
 import com.arjunalabs.android.githubrex.model.GitHubApi;
@@ -88,16 +89,47 @@ public class MainActivity extends ActionBarActivity {
  * http://blog.robinchutaux.com/blog/a-smart-way-to-use-retrofit/
  * http://reactivex.io/documentation/observable.html
  */
-        Observable<Data> observableData = gitHubApi.data("1234567890");
-        Subscription subscribe = observableData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Data>() {
-                    @Override
-                    public void call(Data data) {
-                        Data.DataInside[] datainside = data.getData();
-                        contributionTextView.setText(datainside[0].getData1());
+//        Observable<Data> observableData = gitHubApi.data("1234567890");
+//        Subscription subscribe = observableData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action1<Data>() {
+//                    @Override
+//                    public void call(Data data) {
+//                        Data.DataInside[] datainside = data.getData();
+//                        contributionTextView.setText(datainside[0].getData1());
+//
+//                    }
+//                });
 
+        Observable<AssignmentData> observableAssignmentData = gitHubApi.assignment("1234567890");
+        Subscription subscribe = observableAssignmentData.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<AssignmentData>() {
+                    @Override
+                    public void call(AssignmentData assignmentData) {
+                        if (assignmentData != null) {
+                            AssignmentData.Assignment[] assignments = assignmentData.getAssignments();
+                            if (assignments!=null) {//dapat null euy
+                                StringBuilder sb = new StringBuilder();
+                                for (AssignmentData.Assignment assignment : assignments) {
+                                    if (assignment != null) {
+                                        sb.append("id:" + assignment.getId() + "\n");
+                                        sb.append("vde:" + assignment.getIdMstUserVde() + "\n");
+                                        sb.append("vdo:" + assignment.getIdMstUserVdo() + "\n");
+                                        sb.append("vdr:" + assignment.getIdMstUserVdr() + "\n");
+                                        sb.append("title:" + assignment.getTitle() + "\n");
+                                        sb.append("periodStartDate:" + assignment.getPeriodStartDate() + "\n");
+                                        sb.append("periodEndDate:" + assignment.getPeriodEndDate() + "\n");
+                                        sb.append("state:" + assignment.getState() + "\n");
+                                        sb.append("createDate:" + assignment.getCreateDate() + "\n");
+                                    }
+                                }
+
+                                contributionTextView.setText(sb.toString());
+                            }
+                        }
                     }
                 });
+
 
 /*
         Observable<List<Contributor>> observableContributorList = gitHubApi.observableContributors(REPO_USER, REPO_NAME);

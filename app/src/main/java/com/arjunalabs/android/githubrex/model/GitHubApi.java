@@ -29,9 +29,10 @@ public interface GitHubApi {
 
     @GET("/plugin/tests.hello")
     Observable<Data> data(@Header("X-SBAAS-APPCODE") String appcode
-    ) ;
-//
-//    @GET("/user")
-//    void getUser(@Header("Authorization") String authorization, Callback<User> callback)
+    );
+
+    @GET("/plugin/menado.assignments")
+    Observable<AssignmentData> assignment(@Header("X-SBAAS-APPCODE") String appcode
+    );
 
 }

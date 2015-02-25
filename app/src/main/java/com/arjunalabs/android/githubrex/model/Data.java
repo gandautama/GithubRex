@@ -9,18 +9,9 @@ import com.google.gson.annotations.SerializedName;
  *
  * JASON DATA
  *
-{
-        "result": "ok",
-        "data": [
-        {
-        "data1": "test"
-        },
-        {
-        "data1": "test2"
-        }
-        ],
-        "http_code": 200
-}
+ "result": "ok",
+ "data":
+ "http_code": 200
 */
 public class Data {
     @SerializedName("http_code")
