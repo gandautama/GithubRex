@@ -3,6 +3,7 @@ package com.arjunalabs.android.githubrex.model;
 import java.util.List;
 
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Path;
 import rx.Observable;
 
@@ -11,7 +12,7 @@ import rx.Observable;
  */
 public interface GitHubApi {
 
-    @GET("/repos/{owner}/{repo}/contributors")
+    @GET("/rX-SBAAS-APPCODEepos/{owner}/{repo}/contributors")
     List<Contributor> contributors(
             @Path("owner") String owner,
             @Path("repo") String repo);
@@ -25,5 +26,12 @@ public interface GitHubApi {
     Observable<User> user(
       @Path("user") String user
     );
+
+    @GET("/plugin/tests.hello")
+    Observable<Data> data(@Header("X-SBAAS-APPCODE") String appcode
+    ) ;
+//
+//    @GET("/user")
+//    void getUser(@Header("Authorization") String authorization, Callback<User> callback)
 
 }

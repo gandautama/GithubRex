@@ -14,6 +14,7 @@ import retrofit.client.OkClient;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -21,6 +22,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 import com.arjunalabs.android.githubrex.model.Contributor;
+import com.arjunalabs.android.githubrex.model.Data;
 import com.arjunalabs.android.githubrex.model.GitHubApi;
 import com.arjunalabs.android.githubrex.model.User;
 
@@ -48,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("https://api.github.com")
+                .setEndpoint("http://107.102.182.83:9000")
                 .setClient(new OkClient())
                 .build();
 
@@ -64,24 +66,36 @@ public class MainActivity extends ActionBarActivity {
         }
         */
 
-        /*
 
-        // basic version
-        Observable<List<Contributor>> obserVableContributorList = gitHubApi.observableContributors(REPO_USER, REPO_NAME);
-        obserVableContributorList
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<List<Contributor>>() {
+
+//        // basic version
+//        Observable<List<Contributor>> obserVableContributorList = gitHubApi.observableContributors(REPO_USER, REPO_NAME);
+//        obserVableContributorList
+//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action1<List<Contributor>>() {
+//                    @Override
+//                    public void call(List<Contributor> contributors) {
+//                        contributionTextView.setText("");
+//                        for (Contributor contributor: contributors) {
+//                            contributionTextView.append(contributor.contributions + "\t" +contributor.login);
+//                            contributionTextView.append("\n");
+//                        }
+//                    }
+//                });
+
+/**
+ * http://square.github.io/retrofit/
+ */
+        Observable<Data> observableData = gitHubApi.data("1234567890");
+        Subscription subscribe = observableData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Data>() {
                     @Override
-                    public void call(List<Contributor> contributors) {
-                        contributionTextView.setText("");
-                        for (Contributor contributor: contributors) {
-                            contributionTextView.append(contributor.contributions + "\t" +contributor.login);
-                            contributionTextView.append("\n");
-                        }
+                    public void call(Data data) {
+                        Data.DataInside[] datainside = data.getData();
+                        contributionTextView.setText(datainside[0].getData1());
+
                     }
                 });
-         */
-
 
 /*
         Observable<List<Contributor>> observableContributorList = gitHubApi.observableContributors(REPO_USER, REPO_NAME);
@@ -124,10 +138,10 @@ public class MainActivity extends ActionBarActivity {
                         contributionTextView.setText(throwable.getMessage());
                     }
                 });
+
 */
-
         //more advanced but sometimes is forbidden by the gitHub API 403
-
+/*
         Observable<List<Contributor>> observableContributorList = gitHubApi.observableContributors(REPO_USER, REPO_NAME);
         observableContributorList
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -182,6 +196,7 @@ public class MainActivity extends ActionBarActivity {
                         contributionTextView.append("\n");
                     }
                 });
+*/
 
     }
 
