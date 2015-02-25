@@ -85,6 +85,8 @@ public class MainActivity extends ActionBarActivity {
 
 /**
  * http://square.github.io/retrofit/
+ * http://blog.robinchutaux.com/blog/a-smart-way-to-use-retrofit/
+ * http://reactivex.io/documentation/observable.html
  */
         Observable<Data> observableData = gitHubApi.data("1234567890");
         Subscription subscribe = observableData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
