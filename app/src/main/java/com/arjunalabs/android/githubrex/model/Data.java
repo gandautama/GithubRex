@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
  *
  * JASON DATA
  *
+ * status: 200, content:[{data1:"test"},{data1:"test2"}]
+ *
  "result": "ok",
  "data":
  "http_code": 200

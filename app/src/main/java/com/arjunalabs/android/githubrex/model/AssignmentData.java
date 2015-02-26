@@ -81,7 +81,7 @@ public class AssignmentData {
         this.assignments = assignments;
     }
 
-    @SerializedName("assignments")
+    @SerializedName("data")
     public Assignment[] assignments;
 
     public class Assignment {
@@ -165,15 +165,15 @@ public class AssignmentData {
             this.closeDate = closeDate;
         }
 
-        public TrxAssSites[] getListTrxAssignmentsSites() {
-            return listTrxAssignmentsSites;
+        public TrxAssSites[] getListTrxAssignmentSites() {
+            return listTrxAssignmentSites;
         }
 
-        public void setListTrxAssignmentsSites(TrxAssSites[] listTrxAssignmentsSites) {
-            this.listTrxAssignmentsSites = listTrxAssignmentsSites;
+        public void setListTrxAssignmentSites(TrxAssSites[] listTrxAssignmentsSites) {
+            this.listTrxAssignmentSites = listTrxAssignmentsSites;
         }
 
-        @SerializedName("AssignmentsId")
+        @SerializedName("id")
         int      id;                        //  "id": 1,
         @SerializedName("idMstUserVde")
         String   idMstUserVde;              //  "idMstUserVde": "tommy.t",
@@ -193,8 +193,8 @@ public class AssignmentData {
         String   createDate;                //  "createDate": "2015-01-01",
         @SerializedName("closeDate")
         String   closeDate;                 //  "closeDate": null,
-        @SerializedName("listTrxAssignmentsSites")
-        TrxAssSites[] listTrxAssignmentsSites;   //  "listTrxAssignmentSites":
+        @SerializedName("listTrxAssignmentSites")
+        TrxAssSites[] listTrxAssignmentSites;   //  "listTrxAssignmentSites":
 
     }
 
@@ -215,43 +215,43 @@ public class AssignmentData {
             this.mstSite = mstSite;
         }
 
-        @SerializedName("TrxAssSitesId")
+        @SerializedName("id")
         int AssSitesId;
         @SerializedName("mstSite")
         MstSite mstSite;
     }
 
     public class MstSite{
-        public int getMstSitesId() {
-            return mstSitesId;
+        public String getId() {
+            return id;
         }
 
-        public void setMstSitesId(int mstSitesId) {
-            this.mstSitesId = mstSitesId;
+        public void setId(String mstSitesId) {
+            this.id = id;
         }
 
-        public String getMstName() {
-            return mstName;
+        public String getName() {
+            return name;
         }
 
-        public void setMstName(String mstName) {
-            this.mstName = mstName;
+        public void setName(String mstName) {
+            this.name = mstName;
         }
 
-        public String getMstAddress() {
-            return mstAddress;
+        public String getAddress() {
+            return address;
         }
 
-        public void setMstAddress(String mstAddress) {
-            this.mstAddress = mstAddress;
+        public void setAddress(String address) {
+            this.address = address;
         }
 
-        public String getMstPhone() {
-            return mstPhone;
+        public String getPhone() {
+            return phone;
         }
 
-        public void setMstPhone(String mstPhone) {
-            this.mstPhone = mstPhone;
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
 
         public MstBranchSites getMstBranchSites() {
@@ -286,14 +286,14 @@ public class AssignmentData {
             this.mstTierSites = mstTierSites;
         }
 
-        @SerializedName("mstSitesId")
-        int mstSitesId;
-        @SerializedName("mstName")
-        String mstName;
-        @SerializedName("mstAddress")
-        String mstAddress;
-        @SerializedName("mstPhone")
-        String mstPhone;
+        @SerializedName("id")
+        String id;
+        @SerializedName("name")
+        String name;
+        @SerializedName("address")
+        String address;
+        @SerializedName("phone")
+        String phone;
         @SerializedName("mstBranchSites")
         MstBranchSites mstBranchSites;
         @SerializedName("mstGroupSites")
@@ -305,95 +305,95 @@ public class AssignmentData {
     }
 
     public class MstBranchSites{
-        public int getMstBranchSitesId() {
-            return mstBranchSitesId;
+        public int getId() {
+            return id;
         }
 
-        public void setMstBranchSitesId(int mstBranchSitesId) {
-            this.mstBranchSitesId = mstBranchSitesId;
+        public void setId(int id) {
+            this.id = id;
         }
 
-        public String getMstBranchSitesName() {
-            return mstBranchSitesName;
+        public String getName() {
+            return name;
         }
 
-        public void setMstBranchSitesName(String mstBranchSitesName) {
-            this.mstBranchSitesName = mstBranchSitesName;
+        public void setName(String name) {
+            this.name=name;
         }
 
-        @SerializedName("mstBranchSitesId")
-        int mstBranchSitesId;
-        @SerializedName("mstBranchSitesName")
-        String mstBranchSitesName;
+        @SerializedName("id")
+        int id;
+        @SerializedName("name")
+        String name;
     }
 
     public class MstGroupSites{
-        public int getMstGroupSitesId() {
-            return mstGroupSitesId;
+        public int getId() {
+            return id;
         }
 
-        public void setMstGroupSitesId(int mstGroupSitesId) {
-            this.mstGroupSitesId = mstGroupSitesId;
+        public void setId(int mstGroupSitesId) {
+            this.id = mstGroupSitesId;
         }
 
-        public String getMstGroupSitesName() {
-            return mstGroupSitesName;
+        public String getName() {
+            return name;
         }
 
-        public void setMstGroupSitesName(String mstGroupSitesName) {
-            this.mstGroupSitesName = mstGroupSitesName;
+        public void setName (String name) {
+            this.name = name;
         }
 
-        @SerializedName("mstGroupSitesId")
-        int mstGroupSitesId;
-        @SerializedName("mstGroupSitesName")
-        String mstGroupSitesName;
+        @SerializedName("id")
+        int id;
+        @SerializedName("name")
+        String name;
     }
 
     public class MstRegionSites{
-        public int getMstRegionSitesId() {
-            return mstRegionSitesId;
+        public int getId() {
+            return id;
         }
 
-        public void setMstRegionSitesId(int mstRegionSitesId) {
-            this.mstRegionSitesId = mstRegionSitesId;
+        public void setId(int id) {
+            this.id = id;
         }
 
-        public String getMstRegionSitesName() {
-            return mstRegionSitesName;
+        public String getName() {
+            return name;
         }
 
-        public void setMstRegionSitesName(String mstRegionSitesName) {
-            this.mstRegionSitesName = mstRegionSitesName;
+        public void setName(String name) {
+            this.name = name;
         }
 
-        @SerializedName("mstRegionSitesId")
-        int mstRegionSitesId;
-        @SerializedName("mstRegionSitesName")
-        String mstRegionSitesName;
+        @SerializedName("id")
+        int id;
+        @SerializedName("name")
+        String name;
     }
 
     public class MstTierSites {
-        public int getMstTierSitesId() {
-            return mstTierSitesId;
+        public int getId() {
+            return id;
         }
 
-        public void setMstTierSitesId(int mstTierSitesId) {
-            this.mstTierSitesId = mstTierSitesId;
+        public void setId(int mstTierSitesId) {
+            this.id = mstTierSitesId;
         }
 
-        public String getMstTierSitesName() {
-            return mstTierSitesName;
+        public String getName() {
+            return name;
         }
 
-        public void setMstTierSitesName(String mstTierSitesName) {
-            this.mstTierSitesName = mstTierSitesName;
+        public void setName(String mstTierSitesName) {
+            this.name = mstTierSitesName;
         }
 
-        @SerializedName("mstTierSitesId")
-        int mstTierSitesId;
-        @SerializedName("mstTierSitesName")
-        String mstTierSitesName;
+        @SerializedName("id")
+        int id;
+        @SerializedName("name")
+        String name;
     }
 
 }

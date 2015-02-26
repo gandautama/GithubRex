@@ -26,6 +26,7 @@ import com.arjunalabs.android.githubrex.model.Contributor;
 import com.arjunalabs.android.githubrex.model.Data;
 import com.arjunalabs.android.githubrex.model.GitHubApi;
 import com.arjunalabs.android.githubrex.model.User;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -100,18 +101,21 @@ public class MainActivity extends ActionBarActivity {
 //                    }
 //                });
 
+
+        //http://git.samsungmsci.com/baas/baas-manado/wikis/client-spec
         Observable<AssignmentData> observableAssignmentData = gitHubApi.assignment("1234567890");
         Subscription subscribe = observableAssignmentData.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<AssignmentData>() {
                     @Override
                     public void call(AssignmentData assignmentData) {
+                        StringBuilder sb = new StringBuilder();
                         if (assignmentData != null) {
                             AssignmentData.Assignment[] assignments = assignmentData.getAssignments();
+                            sb.append("http code:"+assignmentData.getHttp_code()+"\n");
+                            sb.append("http result:"+assignmentData.getResult()+"\n");
                             if (assignments!=null) {//dapat null euy
-                                StringBuilder sb = new StringBuilder();
                                 for (AssignmentData.Assignment assignment : assignments) {
-                                    if (assignment != null) {
                                         sb.append("id:" + assignment.getId() + "\n");
                                         sb.append("vde:" + assignment.getIdMstUserVde() + "\n");
                                         sb.append("vdo:" + assignment.getIdMstUserVdo() + "\n");
@@ -121,12 +125,61 @@ public class MainActivity extends ActionBarActivity {
                                         sb.append("periodEndDate:" + assignment.getPeriodEndDate() + "\n");
                                         sb.append("state:" + assignment.getState() + "\n");
                                         sb.append("createDate:" + assignment.getCreateDate() + "\n");
-                                    }
+                                        AssignmentData.TrxAssSites[] trxAssSites = assignment.getListTrxAssignmentSites();
+                                        if (trxAssSites!=null){
+                                            for (AssignmentData.TrxAssSites sites: trxAssSites){
+                                                sb.append("  id:" + sites.getAssSitesId());
+//                                                @SerializedName("mstSitesId")
+//                                                int mstSitesId;
+//                                                @SerializedName("mstName")
+//                                                String mstName;
+//                                                @SerializedName("mstAddress")
+//                                                String mstAddress;
+//                                                @SerializedName("mstPhone")
+//                                                String mstPhone;
+//                                                @SerializedName("mstBranchSites")
+//                                                MstBranchSites mstBranchSites;
+//                                                @SerializedName("mstGroupSites")
+//                                                MstGroupSites mstGroupSites;
+//                                                @SerializedName("mstRegionSites")
+//                                                MstRegionSites mstRegionSites;
+//                                                @SerializedName("mstTierSites")
+//                                                MstTierSites mstTierSites;
+                                                if (sites.getMstSite()!=null) {
+                                                    sb.append("  st  id      : " + sites.getMstSite().getId());
+                                                    sb.append("  st  name    : " + sites.getMstSite().getName());
+                                                    sb.append("  st  phone   : " + sites.getMstSite().getPhone());
+                                                    sb.append("  st  address : " + sites.getMstSite().getAddress());
+                                                    if (sites.getMstSite().getMstBranchSites()!= null) {
+                                                        sb.append("  st  branch  id     :" + sites.getMstSite().getMstBranchSites().getId());
+                                                        sb.append("  st  branch  name   :" + sites.getMstSite().getMstBranchSites().getName());
+                                                    }
+                                                    if (sites.getMstSite().getMstBranchSites()!= null) {
+                                                        sb.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getId());
+                                                        sb.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getName());
+                                                    }
+                                                    if (sites.getMstSite().getMstRegionSites()!= null) {
+                                                        sb.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getId());
+                                                        sb.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getName());
+                                                    }
+                                                    if (sites.getMstSite().getMstTierSites()!=null) {
+                                                        sb.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getId());
+                                                        sb.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getName());
+                                                    }
+                                                }else{
+                                                    sb.append("got sites.getMstSite() null");
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            sb.append("trxAssSites null");
+                                        }
                                 }
-
-                                contributionTextView.setText(sb.toString());
+                            } else {
+                                sb.append("got Data Null");
                             }
                         }
+                        contributionTextView.setText(sb.toString());
                     }
                 });
 
