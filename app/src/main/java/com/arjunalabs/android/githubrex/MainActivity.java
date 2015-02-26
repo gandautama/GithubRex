@@ -7,27 +7,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 import com.arjunalabs.android.githubrex.model.AssignmentData;
-import com.arjunalabs.android.githubrex.model.Contributor;
-import com.arjunalabs.android.githubrex.model.Data;
 import com.arjunalabs.android.githubrex.model.GitHubApi;
-import com.arjunalabs.android.githubrex.model.User;
+import com.arjunalabs.android.githubrex.model.VersionApp;
 import com.arjunalabs.android.githubrex.model.VersionData;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -102,8 +93,8 @@ public class MainActivity extends ActionBarActivity {
 
 
         //http://git.samsungmsci.com/baas/baas-manado/wikis/client-spec
-        Observable<AssignmentData> observableAssignmentData = gitHubApi.assignment("1234567890");
-        Subscription subscribe = observableAssignmentData.subscribeOn(Schedulers.io())
+        Observable<AssignmentData> observableAssignmentData = gitHubApi.oAssignment("1234567890");
+        observableAssignmentData.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<AssignmentData>() {
                     @Override
@@ -111,6 +102,7 @@ public class MainActivity extends ActionBarActivity {
                         StringBuilder sb = new StringBuilder();
                         if (assignmentData != null) {
                             AssignmentData.Assignment[] assignments = assignmentData.getAssignments();
+                            sb.append( result.getText().toString());
                             sb.append("http code:"+assignmentData.getHttp_code()+"\n");
                             sb.append("http result:"+assignmentData.getResult()+"\n");
                             if (assignments!=null) {//dapat null euy
@@ -166,19 +158,38 @@ public class MainActivity extends ActionBarActivity {
                     }
                 });
 
-                Observable<VersionData> observableVersion = gitHubApi.version("1234567890");
-                Subscription subscribe2 = observableVersion.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                Observable<VersionApp> observableVersionApp = gitHubApi.oVersionApp("1234567890");
+                observableVersionApp.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<VersionApp>() {
+                    @Override
+                    public void call(VersionApp versionApp) {
+                        VersionApp.Data vApp = versionApp.getData();
+                        if (vApp!=null) {
+                            String version=vApp.getVersion();
+                            String link = vApp.getLink();
+                            StringBuilder sb = new StringBuilder();
+                            sb.append( result.getText().toString());
+                            sb.append("---------------------\n");
+                            sb.append("version:"+version+"\n");
+                            sb.append("link:"+link+"\n");
+                            result.setText(sb.toString());
+                        }
+                    }
+                });
+
+                Observable<VersionData> observableVersionData = gitHubApi.oVersionData("1234567890");
+                observableVersionData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<VersionData>() {
                     @Override
                     public void call(VersionData data) {
                         VersionData.Data vData = data.getData();
                         if (vData!=null) {
-                            String version=vData.getVersion();
+                            String lastUpdate=vData.getLastUpdate();
                             String link = vData.getLink();
                             StringBuilder sb = new StringBuilder();
                             sb.append( result.getText().toString());
                             sb.append("---------------------\n");
-                            sb.append("version:"+version+"\n");
+                            sb.append("last update:"+lastUpdate+"\n");
                             sb.append("link:"+link+"\n");
                             result.setText(sb.toString());
                         }

@@ -32,11 +32,19 @@ public interface GitHubApi {
     );
 
     @GET("/plugin/menado.assignments")
-    Observable<AssignmentData> assignment(@Header("X-SBAAS-APPCODE") String appcode
+    Observable<AssignmentData> oAssignment(@Header("X-SBAAS-APPCODE") String appcode
     );
 
     @GET("/plugin/menado.versionapp")
-    Observable<VersionData> version(@Header("X-SBAAS-APPCODE") String appcode
+    Observable<VersionApp> oVersionApp(@Header("X-SBAAS-APPCODE") String appcode
+    );
+
+    @GET("/plugin/menado.versiondata")
+    Observable<VersionData> oVersionData(@Header("X-SBAAS-APPCODE") String appcode
+    );
+
+    @GET("/plugin/menado.model")
+    Observable<Model> oModel(@Header("X-SBAAS-APPCODE") String appcode
     );
 
 }

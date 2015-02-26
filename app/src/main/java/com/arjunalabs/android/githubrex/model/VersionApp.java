@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by ganda on 26/02/15.
  */
-public class VersionData {
+public class VersionApp {
     public int getHttp_code() {
         return http_code;
     }
@@ -40,16 +40,16 @@ public class VersionData {
     public Data data;
 
     public class Data{
-        public String getLastUpdate() {
-            return lastUpdate;
+        public String getVersion() {
+            return version;
         }
 
-        public void setLastUpdate(String lastUpdate) {
-            this.lastUpdate = lastUpdate;
+        public void setVersion(String version) {
+            this.version = version;
         }
 
-        @SerializedName("lastUpdate")
-        String lastUpdate;
+        @SerializedName("version")
+        String version;
 
         public String getLink() {
             return link;
