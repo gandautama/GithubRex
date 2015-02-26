@@ -26,6 +26,7 @@ import com.arjunalabs.android.githubrex.model.Contributor;
 import com.arjunalabs.android.githubrex.model.Data;
 import com.arjunalabs.android.githubrex.model.GitHubApi;
 import com.arjunalabs.android.githubrex.model.User;
+import com.arjunalabs.android.githubrex.model.VersionData;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -35,17 +36,15 @@ public class MainActivity extends ActionBarActivity {
 
     private final String REPO_USER = "ReactiveX";
     private final String REPO_NAME = "RxJava";
-    private TextView repoTextView;
-    private TextView contributionTextView;
+
+    private TextView result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        repoTextView = (TextView) findViewById(R.id.text_repos);
-        contributionTextView = (TextView) findViewById(R.id.text_contributors);
+         result = (TextView) findViewById(R.id.result);
 
-        repoTextView.setText("Fetching from : " + REPO_USER + "/" + REPO_NAME);
     }
 
     @Override
@@ -128,58 +127,61 @@ public class MainActivity extends ActionBarActivity {
                                         AssignmentData.TrxAssSites[] trxAssSites = assignment.getListTrxAssignmentSites();
                                         if (trxAssSites!=null){
                                             for (AssignmentData.TrxAssSites sites: trxAssSites){
-                                                sb.append("  id:" + sites.getAssSitesId());
-//                                                @SerializedName("mstSitesId")
-//                                                int mstSitesId;
-//                                                @SerializedName("mstName")
-//                                                String mstName;
-//                                                @SerializedName("mstAddress")
-//                                                String mstAddress;
-//                                                @SerializedName("mstPhone")
-//                                                String mstPhone;
-//                                                @SerializedName("mstBranchSites")
-//                                                MstBranchSites mstBranchSites;
-//                                                @SerializedName("mstGroupSites")
-//                                                MstGroupSites mstGroupSites;
-//                                                @SerializedName("mstRegionSites")
-//                                                MstRegionSites mstRegionSites;
-//                                                @SerializedName("mstTierSites")
-//                                                MstTierSites mstTierSites;
+                                                sb.append("  id:" + sites.getAssSitesId()+ "\n");
                                                 if (sites.getMstSite()!=null) {
-                                                    sb.append("  st  id      : " + sites.getMstSite().getId());
-                                                    sb.append("  st  name    : " + sites.getMstSite().getName());
-                                                    sb.append("  st  phone   : " + sites.getMstSite().getPhone());
-                                                    sb.append("  st  address : " + sites.getMstSite().getAddress());
+                                                    sb.append("  st  id      : " + sites.getMstSite().getId()+ "\n");
+                                                    sb.append("  st  name    : " + sites.getMstSite().getName()+ "\n");
+                                                    sb.append("  st  phone   : " + sites.getMstSite().getPhone()+ "\n");
+                                                    sb.append("  st  address : " + sites.getMstSite().getAddress()+ "\n");
                                                     if (sites.getMstSite().getMstBranchSites()!= null) {
-                                                        sb.append("  st  branch  id     :" + sites.getMstSite().getMstBranchSites().getId());
-                                                        sb.append("  st  branch  name   :" + sites.getMstSite().getMstBranchSites().getName());
+                                                        sb.append("  st  branch  id     :" + sites.getMstSite().getMstBranchSites().getId()+ "\n");
+                                                        sb.append("  st  branch  name   :" + sites.getMstSite().getMstBranchSites().getName()+ "\n");
                                                     }
                                                     if (sites.getMstSite().getMstBranchSites()!= null) {
-                                                        sb.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getId());
-                                                        sb.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getName());
+                                                        sb.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getId()+ "\n");
+                                                        sb.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getName()+ "\n");
                                                     }
                                                     if (sites.getMstSite().getMstRegionSites()!= null) {
-                                                        sb.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getId());
-                                                        sb.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getName());
+                                                        sb.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getId()+ "\n");
+                                                        sb.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getName()+ "\n");
                                                     }
                                                     if (sites.getMstSite().getMstTierSites()!=null) {
-                                                        sb.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getId());
-                                                        sb.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getName());
+                                                        sb.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getId()+ "\n");
+                                                        sb.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getName()+ "\n");
                                                     }
                                                 }else{
-                                                    sb.append("got sites.getMstSite() null");
+                                                    sb.append("got sites.getMstSite() null"+ "\n");
                                                 }
                                             }
                                         }
                                         else{
-                                            sb.append("trxAssSites null");
+                                            sb.append("trxAssSites null"+ "\n");
                                         }
                                 }
                             } else {
-                                sb.append("got Data Null");
+                                sb.append("got Data Null"+ "\n");
                             }
                         }
-                        contributionTextView.setText(sb.toString());
+                        result.setText(sb.toString());
+                    }
+                });
+
+                Observable<VersionData> observableVersion = gitHubApi.version("1234567890");
+                Subscription subscribe2 = observableVersion.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<VersionData>() {
+                    @Override
+                    public void call(VersionData data) {
+                        VersionData.Data vData = data.getData();
+                        if (vData!=null) {
+                            String version=vData.getVersion();
+                            String link = vData.getLink();
+                            StringBuilder sb = new StringBuilder();
+                            sb.append( result.getText().toString());
+                            sb.append("---------------------\n");
+                            sb.append("version:"+version+"\n");
+                            sb.append("link:"+link+"\n");
+                            result.setText(sb.toString());
+                        }
                     }
                 });
 

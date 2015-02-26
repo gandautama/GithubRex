@@ -35,4 +35,8 @@ public interface GitHubApi {
     Observable<AssignmentData> assignment(@Header("X-SBAAS-APPCODE") String appcode
     );
 
+    @GET("/plugin/menado.versionapp")
+    Observable<VersionData> version(@Header("X-SBAAS-APPCODE") String appcode
+    );
+
 }
