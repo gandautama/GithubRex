@@ -43,7 +43,7 @@ public interface GitHubApi {
     Observable<VersionData> oVersionData(@Header("X-SBAAS-APPCODE") String appcode
     );
 
-    @GET("/plugin/menado.model")
+    @GET("/plugin/menado.models")
     Observable<Model> oModel(@Header("X-SBAAS-APPCODE") String appcode
     );
 

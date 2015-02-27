@@ -17,6 +17,7 @@ import rx.schedulers.Schedulers;
 
 import com.arjunalabs.android.githubrex.model.AssignmentData;
 import com.arjunalabs.android.githubrex.model.GitHubApi;
+import com.arjunalabs.android.githubrex.model.Model;
 import com.arjunalabs.android.githubrex.model.VersionApp;
 import com.arjunalabs.android.githubrex.model.VersionData;
 
@@ -34,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-         result = (TextView) findViewById(R.id.result);
+        result = (TextView) findViewById(R.id.result);
 
     }
 
@@ -57,7 +58,6 @@ public class MainActivity extends ActionBarActivity {
             contributionTextView.append("\n");
         }
         */
-
 
 
 //        // basic version
@@ -99,99 +99,153 @@ public class MainActivity extends ActionBarActivity {
                 .subscribe(new Action1<AssignmentData>() {
                     @Override
                     public void call(AssignmentData assignmentData) {
-                        StringBuilder sb = new StringBuilder();
                         if (assignmentData != null) {
+                            StringBuilder sb = new StringBuilder();
                             AssignmentData.Assignment[] assignments = assignmentData.getAssignments();
-                            sb.append( result.getText().toString());
-                            sb.append("http code:"+assignmentData.getHttp_code()+"\n");
-                            sb.append("http result:"+assignmentData.getResult()+"\n");
-                            if (assignments!=null) {//dapat null euy
+                            sb.append(result.getText().toString());
+                            sb.append("---------------------\n");
+                            sb.append("http code:" + assignmentData.getHttp_code() + "\n");
+                            sb.append("http result:" + assignmentData.getResult() + "\n");
+                            if (assignments != null) {//dapat null euy
                                 for (AssignmentData.Assignment assignment : assignments) {
-                                        sb.append("id:" + assignment.getId() + "\n");
-                                        sb.append("vde:" + assignment.getIdMstUserVde() + "\n");
-                                        sb.append("vdo:" + assignment.getIdMstUserVdo() + "\n");
-                                        sb.append("vdr:" + assignment.getIdMstUserVdr() + "\n");
-                                        sb.append("title:" + assignment.getTitle() + "\n");
-                                        sb.append("periodStartDate:" + assignment.getPeriodStartDate() + "\n");
-                                        sb.append("periodEndDate:" + assignment.getPeriodEndDate() + "\n");
-                                        sb.append("state:" + assignment.getState() + "\n");
-                                        sb.append("createDate:" + assignment.getCreateDate() + "\n");
-                                        AssignmentData.TrxAssSites[] trxAssSites = assignment.getListTrxAssignmentSites();
-                                        if (trxAssSites!=null){
-                                            for (AssignmentData.TrxAssSites sites: trxAssSites){
-                                                sb.append("  id:" + sites.getAssSitesId()+ "\n");
-                                                if (sites.getMstSite()!=null) {
-                                                    sb.append("  st  id      : " + sites.getMstSite().getId()+ "\n");
-                                                    sb.append("  st  name    : " + sites.getMstSite().getName()+ "\n");
-                                                    sb.append("  st  phone   : " + sites.getMstSite().getPhone()+ "\n");
-                                                    sb.append("  st  address : " + sites.getMstSite().getAddress()+ "\n");
-                                                    if (sites.getMstSite().getMstBranchSites()!= null) {
-                                                        sb.append("  st  branch  id     :" + sites.getMstSite().getMstBranchSites().getId()+ "\n");
-                                                        sb.append("  st  branch  name   :" + sites.getMstSite().getMstBranchSites().getName()+ "\n");
-                                                    }
-                                                    if (sites.getMstSite().getMstBranchSites()!= null) {
-                                                        sb.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getId()+ "\n");
-                                                        sb.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getName()+ "\n");
-                                                    }
-                                                    if (sites.getMstSite().getMstRegionSites()!= null) {
-                                                        sb.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getId()+ "\n");
-                                                        sb.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getName()+ "\n");
-                                                    }
-                                                    if (sites.getMstSite().getMstTierSites()!=null) {
-                                                        sb.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getId()+ "\n");
-                                                        sb.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getName()+ "\n");
-                                                    }
-                                                }else{
-                                                    sb.append("got sites.getMstSite() null"+ "\n");
+                                    sb.append("id:" + assignment.getId() + "\n");
+                                    sb.append("vde:" + assignment.getIdMstUserVde() + "\n");
+                                    sb.append("vdo:" + assignment.getIdMstUserVdo() + "\n");
+                                    sb.append("vdr:" + assignment.getIdMstUserVdr() + "\n");
+                                    sb.append("title:" + assignment.getTitle() + "\n");
+                                    sb.append("periodStartDate:" + assignment.getPeriodStartDate() + "\n");
+                                    sb.append("periodEndDate:" + assignment.getPeriodEndDate() + "\n");
+                                    sb.append("state:" + assignment.getState() + "\n");
+                                    sb.append("createDate:" + assignment.getCreateDate() + "\n");
+                                    AssignmentData.TrxAssSites[] trxAssSites = assignment.getListTrxAssignmentSites();
+                                    if (trxAssSites != null) {
+                                        for (AssignmentData.TrxAssSites sites : trxAssSites) {
+                                            sb.append("  id:" + sites.getAssSitesId() + "\n");
+                                            if (sites.getMstSite() != null) {
+                                                sb.append("  st  id      : " + sites.getMstSite().getId() + "\n");
+                                                sb.append("  st  name    : " + sites.getMstSite().getName() + "\n");
+                                                sb.append("  st  phone   : " + sites.getMstSite().getPhone() + "\n");
+                                                sb.append("  st  address : " + sites.getMstSite().getAddress() + "\n");
+                                                if (sites.getMstSite().getMstBranchSites() != null) {
+                                                    sb.append("  st  branch  id     :" + sites.getMstSite().getMstBranchSites().getId() + "\n");
+                                                    sb.append("  st  branch  name   :" + sites.getMstSite().getMstBranchSites().getName() + "\n");
                                                 }
+                                                if (sites.getMstSite().getMstBranchSites() != null) {
+                                                    sb.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getId() + "\n");
+                                                    sb.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getName() + "\n");
+                                                }
+                                                if (sites.getMstSite().getMstRegionSites() != null) {
+                                                    sb.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getId() + "\n");
+                                                    sb.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getName() + "\n");
+                                                }
+                                                if (sites.getMstSite().getMstTierSites() != null) {
+                                                    sb.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getId() + "\n");
+                                                    sb.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getName() + "\n");
+                                                }
+                                            } else {
+                                                sb.append("got sites.getMstSite() null" + "\n");
                                             }
                                         }
-                                        else{
-                                            sb.append("trxAssSites null"+ "\n");
-                                        }
+                                    } else {
+                                        sb.append("trxAssSites null" + "\n");
+                                    }
                                 }
                             } else {
-                                sb.append("got Data Null"+ "\n");
+                                sb.append("got Data Null" + "\n");
                             }
+                            result.setText(sb.toString());
                         }
-                        result.setText(sb.toString());
+
                     }
                 });
 
-                Observable<VersionApp> observableVersionApp = gitHubApi.oVersionApp("1234567890");
-                observableVersionApp.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        Observable<VersionApp> observableVersionApp = gitHubApi.oVersionApp("1234567890");
+        observableVersionApp.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<VersionApp>() {
                     @Override
                     public void call(VersionApp versionApp) {
                         VersionApp.Data vApp = versionApp.getData();
-                        if (vApp!=null) {
-                            String version=vApp.getVersion();
+                        if (vApp != null) {
+                            String version = vApp.getVersion();
                             String link = vApp.getLink();
                             StringBuilder sb = new StringBuilder();
-                            sb.append( result.getText().toString());
+                            sb.append(result.getText().toString());
                             sb.append("---------------------\n");
-                            sb.append("version:"+version+"\n");
-                            sb.append("link:"+link+"\n");
+                            sb.append("version:" + version + "\n");
+                            sb.append("link:" + link + "\n");
                             result.setText(sb.toString());
                         }
                     }
                 });
 
-                Observable<VersionData> observableVersionData = gitHubApi.oVersionData("1234567890");
-                observableVersionData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        Observable<VersionData> observableVersionData = gitHubApi.oVersionData("1234567890");
+        observableVersionData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<VersionData>() {
                     @Override
                     public void call(VersionData data) {
                         VersionData.Data vData = data.getData();
-                        if (vData!=null) {
-                            String lastUpdate=vData.getLastUpdate();
+                        if (vData != null) {
+                            String lastUpdate = vData.getLastUpdate();
                             String link = vData.getLink();
                             StringBuilder sb = new StringBuilder();
-                            sb.append( result.getText().toString());
+                            sb.append(result.getText().toString());
                             sb.append("---------------------\n");
-                            sb.append("last update:"+lastUpdate+"\n");
-                            sb.append("link:"+link+"\n");
+                            sb.append("last update:" + lastUpdate + "\n");
+                            sb.append("link:" + link + "\n");
                             result.setText(sb.toString());
+                        }
+                    }
+                });
+
+        Observable<Model> observableModelData = gitHubApi.oModel("1234567890");
+        observableModelData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Model>() {
+                    @Override
+                    public void call(Model model) {
+                        if (model != null) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(result.getText().toString());
+                            sb.append("---------------------\n");
+                            sb.append("http code:" + model.getHttp_code() + "\n");
+                            sb.append("status:" + model.getResult() + "\n");
+
+                            if (model.getData() != null) {
+                                for (Model.Data data : model.getData()) {
+                                    sb.append("  model id       : " + data.getId() + "\n");
+                                    sb.append("  model name     : " + data.getName() + "\n");
+                                    sb.append("  category id    : " + data.getMstCategoryModels().getId()+ "\n");
+                                    sb.append("  category name  : " + data.getMstCategoryModels().getName() + "\n");
+                                    sb.append("  type id      : "+data.getMstCategoryModels().getId()+ "\n");
+                                    sb.append("  type name    : " + data.getName() + "\n");
+                                    sb.append("  zoning id    : "+data.getMstCategoryModels().getId()+ "\n");
+                                    sb.append("  zoning name  : " + data.getName() + "\n");
+                                    sb.append("  mat group id   : " + data.getMstMaterialGroup().getId()+ "\n");
+                                    sb.append("  mat group name : " + data.getMstMaterialGroup().getName() + "\n");
+                                    if (data.getMstMaterialGroup().getListMstGroupMaterials()!=null) {
+                                        for (Model.MstGroupMaterials matGroup : data.getMstMaterialGroup().getListMstGroupMaterials()) {
+//                id: 9,
+//                idMstMaterialGroup: 3,
+//                idMstMaterial: "1",
+                                            sb.append("    id             : " + matGroup.getId() + "\n");
+                                            sb.append("    idMstGroup     : " + matGroup.getIdMstMaterialGroup() + "\n");
+                                            sb.append("    idMstMaterial  : " + matGroup.getIdMstMaterial() + "\n");
+ //                    id: "1",
+//                    name: "Sample Material 01",
+//                    idMstTypeMaterials: 1,
+//                    quantity: 100,
+//                    mstTypeMaterials
+                                            if (matGroup.getMstMaterial()!=null) {
+                                                sb.append("    mat id:" + matGroup.getMstMaterial().getId()+"\n");
+                                                sb.append("    mat name:" + matGroup.getMstMaterial().getName()+"\n");
+                                                sb.append("    mat qty:" + matGroup.getMstMaterial().getQuantity()+"\n");
+                                                sb.append("        type id  :"+ matGroup.getMstMaterial().getMstTypeMaterials().getId()+"\n");
+                                                sb.append("        type name:"+ matGroup.getMstMaterial().getMstTypeMaterials().getName()+"\n");
+                                            }
+                                        }
+                                    }
+                                    result.setText(sb.toString());
+                                }
+                            }
                         }
                     }
                 });
