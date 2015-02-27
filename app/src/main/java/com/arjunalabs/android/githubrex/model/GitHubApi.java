@@ -24,7 +24,7 @@ public interface GitHubApi {
 
     @GET("/users/{user}")
     Observable<User> user(
-      @Path("user") String user
+            @Path("user") String user
     );
 
     @GET("/plugin/tests.hello")
@@ -44,7 +44,9 @@ public interface GitHubApi {
     );
 
     @GET("/plugin/menado.models")
-    Observable<Model> oModel(@Header("X-SBAAS-APPCODE") String appcode
-    );
+    Observable<Model> oModel(@Header("X-SBAAS-APPCODE") String appcode);
+
+    @GET("/plugin/menado.sites")
+    Observable<Sites> oSites(@Header("X-SBAAS-APPCODE") String appcode);
 
 }

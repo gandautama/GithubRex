@@ -18,6 +18,7 @@ import rx.schedulers.Schedulers;
 import com.arjunalabs.android.githubrex.model.AssignmentData;
 import com.arjunalabs.android.githubrex.model.GitHubApi;
 import com.arjunalabs.android.githubrex.model.Model;
+import com.arjunalabs.android.githubrex.model.Sites;
 import com.arjunalabs.android.githubrex.model.VersionApp;
 import com.arjunalabs.android.githubrex.model.VersionData;
 
@@ -104,6 +105,8 @@ public class MainActivity extends ActionBarActivity {
                             AssignmentData.Assignment[] assignments = assignmentData.getAssignments();
                             sb.append(result.getText().toString());
                             sb.append("---------------------\n");
+                            sb.append("      Assignment\n");
+                            sb.append("---------------------\n");
                             sb.append("http code:" + assignmentData.getHttp_code() + "\n");
                             sb.append("http result:" + assignmentData.getResult() + "\n");
                             if (assignments != null) {//dapat null euy
@@ -171,6 +174,8 @@ public class MainActivity extends ActionBarActivity {
                             StringBuilder sb = new StringBuilder();
                             sb.append(result.getText().toString());
                             sb.append("---------------------\n");
+                            sb.append("    Version App\n");
+                            sb.append("---------------------\n");
                             sb.append("version:" + version + "\n");
                             sb.append("link:" + link + "\n");
                             result.setText(sb.toString());
@@ -183,17 +188,21 @@ public class MainActivity extends ActionBarActivity {
                 .subscribe(new Action1<VersionData>() {
                     @Override
                     public void call(VersionData data) {
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(result.getText().toString());
+                        sb.append("---------------------\n");
+                        sb.append("     Version Data  \n");
+                        sb.append("---------------------\n");
+                        sb.append("http code:" + data.getHttp_code() + "\n");
+                        sb.append("status:" + data.getResult() + "\n");
                         VersionData.Data vData = data.getData();
                         if (vData != null) {
                             String lastUpdate = vData.getLastUpdate();
                             String link = vData.getLink();
-                            StringBuilder sb = new StringBuilder();
-                            sb.append(result.getText().toString());
-                            sb.append("---------------------\n");
                             sb.append("last update:" + lastUpdate + "\n");
                             sb.append("link:" + link + "\n");
-                            result.setText(sb.toString());
                         }
+                        result.setText(sb.toString());
                     }
                 });
 
@@ -205,6 +214,8 @@ public class MainActivity extends ActionBarActivity {
                         if (model != null) {
                             StringBuilder sb = new StringBuilder();
                             sb.append(result.getText().toString());
+                            sb.append("---------------------\n");
+                            sb.append("        MODEL\n");
                             sb.append("---------------------\n");
                             sb.append("http code:" + model.getHttp_code() + "\n");
                             sb.append("status:" + model.getResult() + "\n");
@@ -250,7 +261,48 @@ public class MainActivity extends ActionBarActivity {
                     }
                 });
 
-
+        Observable<Sites> observableSites = gitHubApi.oSites("1234567890");
+        observableSites.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Sites>() {
+                    @Override
+                    public void call(Sites sites) {
+                        if (sites != null) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(result.getText().toString());
+                            sb.append("---------------------\n");
+                            sb.append("        Sites\n");
+                            sb.append("---------------------\n");
+                            sb.append("http code:" + sites.getHttp_code() + "\n");
+                            sb.append("status:" + sites.getResult() + "\n");
+                            Sites.Data vData[] = sites.getData();
+                            if (vData != null) {
+                                for (Sites.Data data : vData) {
+                                    sb.append("id         :" + data.getId() + "\n");
+                                    sb.append("name       :" + data.getName() + "\n");
+                                    sb.append("address    :" + data.getAddress()+ "\n");
+                                    sb.append("phone      :" + data.getPhone() + "\n");
+                                    if ( data.getMstBranchSites()!=null) {
+                                        sb.append("br id      :" + data.getMstBranchSites().getId() + "\n");
+                                        sb.append("br name    :" + data.getMstBranchSites().getName() + "\n");
+                                    }
+                                    if ( data.getMstGroupSites()!=null) {
+                                        sb.append("grp st id  :" + data.getMstGroupSites().getId() + "\n");
+                                        sb.append("grp st name:" + data.getMstGroupSites().getName() + "\n");
+                                    }
+                                    if ( data.getMstRegionSites()!=null) {
+                                        sb.append("reg id     :" + data.getMstRegionSites().getId() + "\n");
+                                        sb.append("reg name   :" + data.getMstRegionSites().getId() + "\n");
+                                    }
+                                    if ( data.getMstTierSites()!=null) {
+                                        sb.append("tier id     :" + data.getMstTierSites().getId() + "\n");
+                                        sb.append("tier name   :" + data.getMstTierSites().getId() + "\n");
+                                    }
+                                    result.setText(sb.toString());
+                                }
+                            }
+                        }
+                    }
+                });
 /*
         Observable<List<Contributor>> observableContributorList = gitHubApi.observableContributors(REPO_USER, REPO_NAME);
         observableContributorList
