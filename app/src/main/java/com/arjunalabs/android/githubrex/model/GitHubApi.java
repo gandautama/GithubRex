@@ -12,7 +12,7 @@ import rx.Observable;
  */
 public interface GitHubApi {
 
-    @GET("/rX-SBAAS-APPCODEepos/{owner}/{repo}/contributors")
+    @GET("/repos/{owner}/{repo}/contributors")
     List<Contributor> contributors(
             @Path("owner") String owner,
             @Path("repo") String repo);
@@ -28,25 +28,25 @@ public interface GitHubApi {
     );
 
     @GET("/plugin/tests.hello")
-    Observable<Data> data(@Header("X-SBAAS-APPCODE") String appcode
+    Observable<Data> data(@Header("X-BAASBOX-APPCODE") String appcode
     );
 
-    @GET("/plugin/menado.assignments")
-    Observable<AssignmentData> oAssignment(@Header("X-SBAAS-APPCODE") String appcode
+    @GET("/plugin/menado.assignment")
+    Observable<AssignmentData> oAssignment(@Header("X-BAASBOX-APPCODE") String appcode
     );
 
     @GET("/plugin/menado.versionapp")
-    Observable<VersionApp> oVersionApp(@Header("X-SBAAS-APPCODE") String appcode
+    Observable<VersionApp> oVersionApp(@Header("X-BAASBOX-APPCODE") String appcode
     );
 
     @GET("/plugin/menado.versiondata")
-    Observable<VersionData> oVersionData(@Header("X-SBAAS-APPCODE") String appcode
+    Observable<VersionData> oVersionData(@Header("X-BAASBOX-APPCODE") String appcode
     );
 
     @GET("/plugin/menado.models")
-    Observable<Model> oModel(@Header("X-SBAAS-APPCODE") String appcode);
+    Observable<Model> oModel(@Header("X-BAASBOX-APPCODE") String appcode);
 
     @GET("/plugin/menado.sites")
-    Observable<Sites> oSites(@Header("X-SBAAS-APPCODE") String appcode);
+    Observable<Sites> oSites(@Header("X-BAASBOX-APPCODE") String appcode);
 
 }
