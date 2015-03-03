@@ -19,40 +19,29 @@ import rx.Observable;
  */
 public interface GitHubApi {
 
-    @GET("/repos/{owner}/{repo}/contributors")
-    List<Contributor> contributors(
-            @Path("owner") String owner,
-            @Path("repo") String repo);
 
-    @GET("/repos/{owner}/{repo}/contributors")
-    Observable<List<Contributor>> observableContributors(
-            @Path("owner") String owner,
-            @Path("repo") String repo);
-
-    @GET("/users/{user}")
-    Observable<User> user(
-            @Path("user") String user
+    @GET("/menado/data/assignment")
+    Observable<AssignmentData> oAssignment(//@Header("X-BAASBOX-APPCODE") String appcode,
+                                           @Header("X-BB-SESSION") String session
     );
 
-
-
-    @GET("/plugin/menado.assignment")
-    Observable<AssignmentData> oAssignment(@Header("X-BAASBOX-APPCODE") String appcode
+    @GET("/manado/version/app")
+    Observable<VersionApp> oVersionApp(//@Header("X-BAASBOX-APPCODE") String appcode,
+                                       @Header("X-BB-SESSION") String session
     );
 
-    @GET("/plugin/menado.versionapp")
-    Observable<VersionApp> oVersionApp(@Header("X-BAASBOX-APPCODE") String appcode
+    @GET("/manado/version/data")
+    Observable<VersionData> oVersionData(//@Header("X-BAASBOX-APPCODE") String appcode,
+                                         @Header("X-BB-SESSION") String session
     );
 
-    @GET("/plugin/menado.versiondata")
-    Observable<VersionData> oVersionData(@Header("X-BAASBOX-APPCODE") String appcode
-    );
+    @GET("/manado/data/models")
+    Observable<Model> oModel(//@Header("X-BAASBOX-APPCODE") String appcode,
+                             @Header("X-BB-SESSION") String session);
 
-    @GET("/plugin/menado.models")
-    Observable<Model> oModel(@Header("X-BAASBOX-APPCODE") String appcode);
-
-    @GET("/plugin/menado.sites")
-    Observable<Sites> oSites(@Header("X-BAASBOX-APPCODE") String appcode);
+    @GET("/manado/data/sites")
+    Observable<Sites> oSites(//@Header("X-BAASBOX-APPCODE") String appcode,
+                             @Header("X-BB-SESSION") String session);
 
 
     @FormUrlEncoded
@@ -75,6 +64,7 @@ public interface GitHubApi {
     oPicture(@Part("file") TypedFile fileUploaded,
              @Part("attachedData") TypedString infostring,
              @Part("acl") TypedString acl,
-             @Header("X-BAASBOX-APPCODE") String appcode);
+             @Header("X-BAASBOX-APPCODE") String appcode,
+             @Header("X-BB-SESSION") String session);
 
 }

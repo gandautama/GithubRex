@@ -74,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://128.199.111.113:9000")
+                .setEndpoint("http://107.102.182.83:9000")
                 .setClient(new OkClient())
                 .build();
 
@@ -171,7 +171,9 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void Error(Throwable t) {
-
+                StringBuilder sb = new StringBuilder();
+                sb.append("error, "+t.getMessage());
+                result.setText(sb.toString());
             }
 
         });
@@ -183,7 +185,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void doGetSites(final GitHubApi gitHubApi, final INext next) {
         final GitHubApi api = gitHubApi;
-        Observable<Sites> observableSites = gitHubApi.oSites("1234567890");
+        Observable<Sites> observableSites = gitHubApi.oSites(xBbSession/*,"1234567890"*/);
         observableSites.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Sites>() {
                                @Override
@@ -241,7 +243,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doGetModel(final GitHubApi gitHubApi, final INext next) {
-        Observable<Model> observableModelData = gitHubApi.oModel("1234567890");
+        Observable<Model> observableModelData = gitHubApi.oModel(xBbSession/*,"1234567890"*/);
         observableModelData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Model>() {
                                @Override
@@ -303,7 +305,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doGetVersionData(final GitHubApi gitHubApi, final INext next) {
-        Observable<VersionData> observableVersionData = gitHubApi.oVersionData("1234567890");
+        Observable<VersionData> observableVersionData = gitHubApi.oVersionData(xBbSession/*,"1234567890"*/);
         observableVersionData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<VersionData>() {
                                @Override
@@ -340,7 +342,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doGetVersionApp(final GitHubApi gitHubApi, final INext next) {
-        Observable<VersionApp> observableVersionApp = gitHubApi.oVersionApp("1234567890");
+        Observable<VersionApp> observableVersionApp = gitHubApi.oVersionApp(xBbSession/*"1234567890"*/);
         observableVersionApp.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<VersionApp>() {
                                @Override
@@ -375,7 +377,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doGetAssignment(final GitHubApi gitHubApi, final INext next) {
-        Observable<AssignmentData> observableAssignmentData = gitHubApi.oAssignment("1234567890");
+        Observable<AssignmentData> observableAssignmentData = gitHubApi.oAssignment(xBbSession/* "1234567890"*/);
         observableAssignmentData.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<AssignmentData>() {
@@ -508,7 +510,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doLogout(final GitHubApi gitHubApi, final INext nextAction) {
-            Observable<Logout> observableLogout = gitHubApi.oLogout("1234567890", xBbSession);
+            Observable<Logout> observableLogout = gitHubApi.oLogout( xBbSession,"1234567890");
             observableLogout.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         new Action1<Logout>() {
