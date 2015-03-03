@@ -11,6 +11,7 @@ import android.widget.TextView;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -207,60 +208,166 @@ public class MainActivity extends ActionBarActivity {
             }
         );
 
-        Observable<Model> observableModelData = gitHubApi.oModel("1234567890");
-        observableModelData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Action1<Model>() {
-            @Override
-            public void call(Model model) {
-                if (model != null) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(result.getText().toString());
-                    sb.append("---------------------\n");
-                    sb.append("        MODEL\n");
-                    sb.append("---------------------\n");
-                    sb.append("http code:" + model.getHttp_code() + "\n");
-                    sb.append("status:" + model.getResult() + "\n");
+//        Observable<List<Contributor>> observableContributorList = gitHubApi.observableContributors(REPO_USER, REPO_NAME);
+//        observableContributorList
+//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .lift(new Observable.Operator<Contributor, List<Contributor>>() {
+//                    @Override
+//                    public Subscriber<? super List<Contributor>> call(final Subscriber<? super Contributor> subscriber) {
+//
+//                        return new Subscriber<List<Contributor>>() {
+//                            @Override
+//                            public void onCompleted() {
+//                                subscriber.onCompleted();
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                subscriber.onError(e);
+//                            }
+//
+//                            @Override
+//                            public void onNext(List<Contributor> contributors) {
+//                                for (Contributor contributor: contributors) {
+//                                    subscriber.onNext(contributor);
+//                                }
+//                            }
+//                        };
+//                    }
+//                })
+//                .forEach(new Action1<Contributor>() {
+//                    @Override
+//                    public void call(Contributor contributor) {
+//                        Log.i("contributor", contributor.login);
+//                        contributionTextView.append(contributor.contributions + "\t" + contributor.login);
+//                        contributionTextView.append("\n");
+//                    }
+//                }, new Action1<Throwable>() {
+//                    @Override
+//                    public void call(Throwable throwable) {
+//                        contributionTextView.setText(throwable.getMessage());
+//                    }
+//                });
 
-                    if (model.getData() != null) {
-                        for (Model.Data data : model.getData()) {
-                            sb.append("  model id       : " + data.getId() + "\n");
-                            sb.append("  model name     : " + data.getName() + "\n");
-                            sb.append("  category id    : " + data.getMstCategoryModels().getId()+ "\n");
-                            sb.append("  category name  : " + data.getMstCategoryModels().getName() + "\n");
-                            sb.append("  type id      : "+data.getMstCategoryModels().getId()+ "\n");
-                            sb.append("  type name    : " + data.getName() + "\n");
-                            sb.append("  zoning id    : "+data.getMstCategoryModels().getId()+ "\n");
-                            sb.append("  zoning name  : " + data.getName() + "\n");
-                            sb.append("  mat group id   : " + data.getMstMaterialGroup().getId()+ "\n");
-                            sb.append("  mat group name : " + data.getMstMaterialGroup().getName() + "\n");
-                            if (data.getMstMaterialGroup().getListMstGroupMaterials()!=null) {
+        Observable<List<Model.Data>> observableModelDataList = gitHubApi.oModelDataList("1234567890");
+        observableModelDataList.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                  .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .lift(new Observable.Operator<Model.Data, List<Model.Data>>() {
+                    @Override
+                    public Subscriber<? super List<Model.Data>> call(final Subscriber<? super Model.Data> subscriber) {
+
+                        return new Subscriber<List<Model.Data>>() {
+                            @Override
+                            public void onCompleted() {
+                                subscriber.onCompleted();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                subscriber.onError(e);
+                            }
+
+                            @Override
+                            public void onNext(List<Model.Data> modelData) {
+                                for (Model.Data modelDatum: modelData) {
+                                    subscriber.onNext(modelDatum);
+                                }
+                            }
+                        };
+                    }
+                })
+                .forEach(new Action1<Model.Data>() {
+                    @Override
+                    public void call(Model.Data data) {
+                            result.append("  model id       : " + data.getId() + "\n");
+                            result.append("  model name     : " + data.getName() + "\n");
+                            result.append("  category id    : " + data.getMstCategoryModels().getId() + "\n");
+                            result.append("  category name  : " + data.getMstCategoryModels().getName() + "\n");
+                            result.append("  type id      : " + data.getMstCategoryModels().getId() + "\n");
+                            result.append("  type name    : " + data.getName() + "\n");
+                            result.append("  zoning id    : " + data.getMstCategoryModels().getId() + "\n");
+                            result.append("  zoning name  : " + data.getName() + "\n");
+                            result.append("  mat group id   : " + data.getMstMaterialGroup().getId() + "\n");
+                            result.append("  mat group name : " + data.getMstMaterialGroup().getName() + "\n");
+                            if (data.getMstMaterialGroup().getListMstGroupMaterials() != null) {
                                 for (Model.MstGroupMaterials matGroup : data.getMstMaterialGroup().getListMstGroupMaterials()) {
-//                id: 9,
-//                idMstMaterialGroup: 3,
-//                idMstMaterial: "1",
-                                    sb.append("    id             : " + matGroup.getId() + "\n");
-                                    sb.append("    idMstGroup     : " + matGroup.getIdMstMaterialGroup() + "\n");
-                                    sb.append("    idMstMaterial  : " + matGroup.getIdMstMaterial() + "\n");
-//                    id: "1",
-//                    name: "Sample Material 01",
-//                    idMstTypeMaterials: 1,
-//                    quantity: 100,
-//                    mstTypeMaterials
-                                    if (matGroup.getMstMaterial()!=null) {
-                                        sb.append("    mat id:" + matGroup.getMstMaterial().getId()+"\n");
-                                        sb.append("    mat name:" + matGroup.getMstMaterial().getName()+"\n");
-                                        sb.append("    mat qty:" + matGroup.getMstMaterial().getQuantity()+"\n");
-                                        sb.append("        type id  :"+ matGroup.getMstMaterial().getMstTypeMaterials().getId()+"\n");
-                                        sb.append("        type name:"+ matGroup.getMstMaterial().getMstTypeMaterials().getName()+"\n");
+                                    result.append("    id             : " + matGroup.getId() + "\n");
+                                    result.append("    idMstGroup     : " + matGroup.getIdMstMaterialGroup() + "\n");
+                                    result.append("    idMstMaterial  : " + matGroup.getIdMstMaterial() + "\n");
+
+                                    if (matGroup.getMstMaterial() != null) {
+                                        result.append("    mat id:" + matGroup.getMstMaterial().getId() + "\n");
+                                        result.append("    mat name:" + matGroup.getMstMaterial().getName() + "\n");
+                                        result.append("    mat qty:" + matGroup.getMstMaterial().getQuantity() + "\n");
+                                        result.append("        type id  :" + matGroup.getMstMaterial().getMstTypeMaterials().getId() + "\n");
+                                        result.append("        type name:" + matGroup.getMstMaterial().getMstTypeMaterials().getName() + "\n");
                                     }
                                 }
                             }
-                            result.setText(sb.toString());
-                        }
+
+
                     }
-                }
-            }
-        });
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        result.setText(throwable.getMessage());
+                    }
+                });
+
+//        Observable<Model> observableModelData = gitHubApi.oModel("1234567890");
+//        observableModelData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//        .subscribe(new Action1<Model>() {
+//            @Override
+//            public void call(Model model) {
+//                if (model != null) {
+//                    StringBuilder sb = new StringBuilder();
+//                    sb.append(result.getText().toString());
+//                    sb.append("---------------------\n");
+//                    sb.append("        MODEL\n");
+//                    sb.append("---------------------\n");
+//                    sb.append("http code:" + model.getHttp_code() + "\n");
+//                    sb.append("status:" + model.getResult() + "\n");
+//
+//                    if (model.getData() != null) {
+//                        for (Model.Data data : model.getData()) {
+//                            sb.append("  model id       : " + data.getId() + "\n");
+//                            sb.append("  model name     : " + data.getName() + "\n");
+//                            sb.append("  category id    : " + data.getMstCategoryModels().getId()+ "\n");
+//                            sb.append("  category name  : " + data.getMstCategoryModels().getName() + "\n");
+//                            sb.append("  type id      : "+data.getMstCategoryModels().getId()+ "\n");
+//                            sb.append("  type name    : " + data.getName() + "\n");
+//                            sb.append("  zoning id    : "+data.getMstCategoryModels().getId()+ "\n");
+//                            sb.append("  zoning name  : " + data.getName() + "\n");
+//                            sb.append("  mat group id   : " + data.getMstMaterialGroup().getId()+ "\n");
+//                            sb.append("  mat group name : " + data.getMstMaterialGroup().getName() + "\n");
+//                            if (data.getMstMaterialGroup().getListMstGroupMaterials()!=null) {
+//                                for (Model.MstGroupMaterials matGroup : data.getMstMaterialGroup().getListMstGroupMaterials()) {
+////                id: 9,
+////                idMstMaterialGroup: 3,
+////                idMstMaterial: "1",
+//                                    sb.append("    id             : " + matGroup.getId() + "\n");
+//                                    sb.append("    idMstGroup     : " + matGroup.getIdMstMaterialGroup() + "\n");
+//                                    sb.append("    idMstMaterial  : " + matGroup.getIdMstMaterial() + "\n");
+////                    id: "1",
+////                    name: "Sample Material 01",
+////                    idMstTypeMaterials: 1,
+////                    quantity: 100,
+////                    mstTypeMaterials
+//                                    if (matGroup.getMstMaterial()!=null) {
+//                                        sb.append("    mat id:" + matGroup.getMstMaterial().getId()+"\n");
+//                                        sb.append("    mat name:" + matGroup.getMstMaterial().getName()+"\n");
+//                                        sb.append("    mat qty:" + matGroup.getMstMaterial().getQuantity()+"\n");
+//                                        sb.append("        type id  :"+ matGroup.getMstMaterial().getMstTypeMaterials().getId()+"\n");
+//                                        sb.append("        type name:"+ matGroup.getMstMaterial().getMstTypeMaterials().getName()+"\n");
+//                                    }
+//                                }
+//                            }
+//                            result.setText(sb.toString());
+//                        }
+//                    }
+//                }
+//            }
+//        });
 
         Observable<Sites> observableSites = gitHubApi.oSites("1234567890");
         observableSites.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())

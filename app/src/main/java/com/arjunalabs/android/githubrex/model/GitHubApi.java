@@ -46,6 +46,11 @@ public interface GitHubApi {
     @GET("/plugin/menado.models")
     Observable<Model> oModel(@Header("X-BAASBOX-APPCODE") String appcode);
 
+
+    @GET("/plugin/menado.models")
+    Observable<List<Model.Data>> oModelDataList(@Header("X-BAASBOX-APPCODE") String appcode);
+
+
     @GET("/plugin/menado.sites")
     Observable<Sites> oSites(@Header("X-BAASBOX-APPCODE") String appcode);
 
