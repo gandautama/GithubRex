@@ -345,7 +345,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doGetVersionApp(final GitHubApi gitHubApi, final INext next) {
-        Observable<VersionApp> observableVersionApp = gitHubApi.oVersionApp(xBbSession/*"1234567890"*/);
+        Observable<VersionApp> observableVersionApp = gitHubApi.oVersionApp(xBbSession);
         observableVersionApp.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<VersionApp>() {
                                @Override
@@ -380,7 +380,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doGetAssignment(final GitHubApi gitHubApi, final INext next) {
-        Observable<AssignmentData> observableAssignmentData = gitHubApi.oAssignment(/*appCode,*/ xBbSession);
+        Observable<AssignmentData> observableAssignmentData = gitHubApi.oAssignment(xBbSession);
         observableAssignmentData.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<AssignmentData>() {
@@ -463,7 +463,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doLogin(final GitHubApi gitHubApi, final INext next) {
-        Observable<Login> observableLogin = gitHubApi.oLogin(appCode, "ihsan.t", "password");
+        Observable<Login> observableLogin = gitHubApi.oLogin(appCode, "tommy.t", "password");
         observableLogin.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         new Action1<Login>() {

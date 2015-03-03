@@ -20,28 +20,30 @@ import rx.Observable;
 public interface GitHubApi {
 
 
-    @GET("/menado/data/assignments")
-    Observable<AssignmentData> oAssignment(//@Header("X-BAASBOX-APPCODE") String appcode,
-                                           @Header("X-BB-SESSION") String session
+    @GET("/manado/data/assignments")
+    Observable<AssignmentData> oAssignment(
+        @Header("X-BB-SESSION") String session
     );
 
     @GET("/manado/version/app")
-    Observable<VersionApp> oVersionApp(//@Header("X-BAASBOX-APPCODE") String appcode,
-                                       @Header("X-BB-SESSION") String session
+    Observable<VersionApp> oVersionApp(
+         @Header("X-BB-SESSION") String session
     );
 
     @GET("/manado/version/data")
-    Observable<VersionData> oVersionData(//@Header("X-BAASBOX-APPCODE") String appcode,
-                                         @Header("X-BB-SESSION") String session
+    Observable<VersionData> oVersionData(
+         @Header("X-BB-SESSION") String session
     );
 
     @GET("/manado/data/models")
-    Observable<Model> oModel(//@Header("X-BAASBOX-APPCODE") String appcode,
-                             @Header("X-BB-SESSION") String session);
+    Observable<Model> oModel(
+          @Header("X-BB-SESSION") String session
+    );
 
     @GET("/manado/data/sites")
-    Observable<Sites> oSites(//@Header("X-BAASBOX-APPCODE") String appcode,
-                             @Header("X-BB-SESSION") String session);
+    Observable<Sites> oSites(
+        @Header("X-BB-SESSION") String session
+    );
 
 
     @FormUrlEncoded
