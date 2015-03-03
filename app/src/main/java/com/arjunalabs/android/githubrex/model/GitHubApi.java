@@ -20,7 +20,7 @@ import rx.Observable;
 public interface GitHubApi {
 
 
-    @GET("/menado/data/assignment")
+    @GET("/menado/data/assignments")
     Observable<AssignmentData> oAssignment(//@Header("X-BAASBOX-APPCODE") String appcode,
                                            @Header("X-BB-SESSION") String session
     );
@@ -47,9 +47,10 @@ public interface GitHubApi {
     @FormUrlEncoded
     @POST("/login")
     Observable<Login>
-    oLogin( @Field("username") String username,
-            @Field("password") String password,
-            @Field("appcode") String appcode
+    oLogin( @Field("appcode") String appcode,
+            @Field("username") String username,
+            @Field("password") String password
+
             );
 
     @POST("/logout")

@@ -37,6 +37,7 @@ public class MainActivity extends ActionBarActivity {
     private TextView result;
 
     String xBbSession = "";
+    final String appCode = "manado";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,9 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public interface  INext {
+    public interface INext {
         public void Finish(final GitHubApi api);
+
         public void Error(Throwable t);
     }
 
@@ -64,7 +66,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void Error(Throwable t) {
                 StringBuilder sb = new StringBuilder();
-                sb.append("error, "+t.getMessage());
+                sb.append(result.getText().toString());
+                sb.append("error, " + t.getMessage());
                 result.setText(sb.toString());
             }
         });
@@ -90,8 +93,8 @@ public class MainActivity extends ActionBarActivity {
 
 //http://git.samsungmsci.com/baas/baas-manado/wikis/client-spec
 
-        doLogin(gitHubApi,new INext(){
-//login
+        doLogin(gitHubApi, new INext() {
+            //login
             @Override
             public void Finish(GitHubApi api) {
 //get version data
@@ -107,7 +110,7 @@ public class MainActivity extends ActionBarActivity {
                                     @Override
                                     public void Finish(GitHubApi api) {
 //get material
-                                        doGetModel(api,new INext() {
+                                        doGetModel(api, new INext() {
                                             @Override
                                             public void Finish(GitHubApi api) {
 //get sites
@@ -127,7 +130,8 @@ public class MainActivity extends ActionBarActivity {
                                                             @Override
                                                             public void Error(Throwable t) {
                                                                 StringBuilder sb = new StringBuilder();
-                                                                sb.append("error, "+t.getMessage());
+                                                                sb.append(result.getText().toString());
+                                                                sb.append("error, " + t.getMessage());
                                                                 result.setText(sb.toString());
                                                             }
                                                         });
@@ -135,28 +139,28 @@ public class MainActivity extends ActionBarActivity {
 
                                                     @Override
                                                     public void Error(Throwable t) {
-                                                        FoundError(gitHubApi,t);
+                                                        FoundError(gitHubApi, t);
                                                     }
                                                 });
                                             }
 
                                             @Override
                                             public void Error(Throwable t) {
-                                                FoundError(gitHubApi,t);
+                                                FoundError(gitHubApi, t);
                                             }
                                         });
                                     }
 
                                     @Override
                                     public void Error(Throwable t) {
-                                        FoundError(gitHubApi,t);
+                                        FoundError(gitHubApi, t);
                                     }
                                 });
                             }
 
                             @Override
                             public void Error(Throwable t) {
-                                FoundError(gitHubApi,t);
+                                FoundError(gitHubApi, t);
                             }
                         });
                     }
@@ -172,7 +176,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void Error(Throwable t) {
                 StringBuilder sb = new StringBuilder();
-                sb.append("error, "+t.getMessage());
+                sb.append("error, " + t.getMessage());
                 result.setText(sb.toString());
             }
 
@@ -180,7 +184,6 @@ public class MainActivity extends ActionBarActivity {
 
 
     }
-
 
 
     private void doGetSites(final GitHubApi gitHubApi, final INext next) {
@@ -226,7 +229,7 @@ public class MainActivity extends ActionBarActivity {
                                        }
                                    }
                                }
-                           },  new Action1<Throwable>() {
+                           }, new Action1<Throwable>() {
                                @Override
                                public void call(Throwable throwable) {
                                    next.Error(throwable);
@@ -243,7 +246,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doGetModel(final GitHubApi gitHubApi, final INext next) {
-        Observable<Model> observableModelData = gitHubApi.oModel(xBbSession/*,"1234567890"*/);
+        Observable<Model> observableModelData = gitHubApi.oModel(xBbSession);
         observableModelData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Model>() {
                                @Override
@@ -290,18 +293,18 @@ public class MainActivity extends ActionBarActivity {
                                        }
                                    }
                                }
-                           },  new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                next.Error(throwable);
-            }
-        },
-                new Action0() {
-                    @Override
-                    public void call() {
-                        next.Finish(gitHubApi);
-                    }
-                });
+                           }, new Action1<Throwable>() {
+                               @Override
+                               public void call(Throwable throwable) {
+                                   next.Error(throwable);
+                               }
+                           },
+                        new Action0() {
+                            @Override
+                            public void call() {
+                                next.Finish(gitHubApi);
+                            }
+                        });
     }
 
     private void doGetVersionData(final GitHubApi gitHubApi, final INext next) {
@@ -326,7 +329,7 @@ public class MainActivity extends ActionBarActivity {
                                    }
                                    result.setText(sb.toString());
                                }
-                           },  new Action1<Throwable>() {
+                           }, new Action1<Throwable>() {
                                @Override
                                public void call(Throwable throwable) {
                                    next.Error(throwable);
@@ -377,7 +380,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doGetAssignment(final GitHubApi gitHubApi, final INext next) {
-        Observable<AssignmentData> observableAssignmentData = gitHubApi.oAssignment(xBbSession/* "1234567890"*/);
+        Observable<AssignmentData> observableAssignmentData = gitHubApi.oAssignment(/*appCode,*/ xBbSession);
         observableAssignmentData.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<AssignmentData>() {
@@ -460,7 +463,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doLogin(final GitHubApi gitHubApi, final INext next) {
-        Observable<Login> observableLogin = gitHubApi.oLogin("tester", "tester", "1234567890");
+        Observable<Login> observableLogin = gitHubApi.oLogin(appCode, "ihsan.t", "password");
         observableLogin.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         new Action1<Login>() {
@@ -510,8 +513,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void doLogout(final GitHubApi gitHubApi, final INext nextAction) {
-            Observable<Logout> observableLogout = gitHubApi.oLogout( xBbSession,"1234567890");
-            observableLogout.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        Observable<Logout> observableLogout = gitHubApi.oLogout(xBbSession, appCode);
+        observableLogout.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         new Action1<Logout>() {
                             @Override
