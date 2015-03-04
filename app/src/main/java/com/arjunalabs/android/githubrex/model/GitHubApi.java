@@ -37,7 +37,7 @@ public interface GitHubApi {
 
     @GET("/manado/data/models")
     Observable<Model> oModel(
-          @Header("X-BB-SESSION") String session
+         @Header("X-BB-SESSION") String session
     );
 
     @GET("/manado/data/sites")
@@ -52,7 +52,6 @@ public interface GitHubApi {
     oLogin( @Field("appcode") String appcode,
             @Field("username") String username,
             @Field("password") String password
-
             );
 
     @POST("/logout")

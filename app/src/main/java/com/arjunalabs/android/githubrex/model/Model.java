@@ -220,10 +220,15 @@ public class Model {
 //                idMstMaterialGroup: 3,
 //                idMstMaterial: "1",
 //                mstMaterial: {
+
+        @SerializedName("idMstMaterial")
+        String idMstMaterial;
+        @SerializedName("mstMaterial")
+        MstMaterial mstMaterial;
         @SerializedName("id")
         int id;
         @SerializedName("idMstMaterialGroup")
-        int idMstMaterialGroup;
+        String idMstMaterialGroup;
 
         public int getId() {
             return id;
@@ -233,19 +238,19 @@ public class Model {
             this.id = id;
         }
 
-        public int getIdMstMaterialGroup() {
+        public String getIdMstMaterialGroup() {
             return idMstMaterialGroup;
         }
 
-        public void setIdMstMaterialGroup(int idMstMaterialGroup) {
+        public void setIdMstMaterialGroup(String idMstMaterialGroup) {
             this.idMstMaterialGroup = idMstMaterialGroup;
         }
 
-        public int getIdMstMaterial() {
+        public String getIdMstMaterial() {
             return idMstMaterial;
         }
 
-        public void setIdMstMaterial(int idMstMaterial) {
+        public void setIdMstMaterial(String idMstMaterial) {
             this.idMstMaterial = idMstMaterial;
         }
 
@@ -257,10 +262,6 @@ public class Model {
             this.mstMaterial = mstMaterial;
         }
 
-        @SerializedName("idMstMaterial")
-        int idMstMaterial;
-        @SerializedName("mstMaterial")
-        MstMaterial mstMaterial;
     }
 
     public class MstMaterial {
@@ -270,7 +271,7 @@ public class Model {
 //                    quantity: 100,
 //                    mstTypeMaterials
         @SerializedName("id")
-        int id;
+        String id;
         @SerializedName("name")
         String name;
         @SerializedName("idMstTypeMaterial")
@@ -304,11 +305,11 @@ public class Model {
             this.name = name;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
