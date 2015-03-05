@@ -2,6 +2,7 @@ package com.arjunalabs.android.githubrex.model;
 
 import java.util.List;
 
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -11,6 +12,7 @@ import retrofit.http.POST;
 import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.mime.TypedFile;
+import retrofit.mime.TypedInput;
 import retrofit.mime.TypedString;
 import rx.Observable;
 
@@ -68,5 +70,14 @@ public interface GitHubApi {
             @Part("file") TypedFile fileUploaded,
             @Part("evidenceData") TypedString evidenceData
     );
+
+    @POST("/manado/data/save")
+    Observable<SubmitReport>
+    oSubmitReport( @Header("X-BB-SESSION") String session,
+             @Header("Content-Type") String contentType,
+             @Body TypedString body
+    );
+
+
 
 }

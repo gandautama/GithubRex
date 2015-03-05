@@ -32,10 +32,12 @@ import com.arjunalabs.android.githubrex.model.Sites;
 import com.arjunalabs.android.githubrex.model.UploadPicture;
 import com.arjunalabs.android.githubrex.model.VersionApp;
 import com.arjunalabs.android.githubrex.model.VersionData;
+import com.arjunalabs.android.githubrex.model.SubmitReport;
 
 import java.io.File;
 import java.lang.Override;
 import java.lang.Throwable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -66,31 +68,42 @@ public class MainActivity extends ActionBarActivity {
             int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             fileUri = cursor.getString(idx);
             result.append("image location " + fileUri);
-            uploadImage();
+//            uploadImage();
         }
-
-
     }
 
-    void uploadImage(){
-
+    void testRest(){
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://107.102.182.83:9000")
                 .setClient(new OkClient())
                 .build();
+
         final GitHubApi gitHubApi = restAdapter.create(GitHubApi.class);
+
         doLogin(gitHubApi, new INext() {
-            //login
             @Override
             public void Finish(GitHubApi api) {
-                doUploadPicture(api, new INext() {
+//                doUploadPicture(api, new INext() {
+//                    @Override
+//                    public void Finish(GitHubApi api) {
+                doGetAssignment(api, new INext() {
                     @Override
                     public void Finish(GitHubApi api) {
-                        doLogout(api, new INext() {
+                        doUploadReport(api, new INext() {
                             @Override
                             public void Finish(GitHubApi api) {
-                                result.append("finished getting data");
-                                xBbSession = "";
+                                doLogout(api, new INext() {
+                                    @Override
+                                    public void Finish(GitHubApi api) {
+                                        result.append("finished getting data");
+                                        xBbSession = "";
+                                    }
+
+                                    @Override
+                                    public void Error(Throwable t) {
+                                        result.append("error, " + t.getMessage());
+                                    }
+                                });
                             }
 
                             @Override
@@ -99,13 +112,19 @@ public class MainActivity extends ActionBarActivity {
                             }
                         });
                     }
+
                     @Override
                     public void Error(Throwable t) {
                         result.append("error, " + t.getMessage());
                     }
                 });
-             }
-
+//
+//                    }
+//                    @Override
+//                    public void Error(Throwable t) {
+//                        result.append("error, " + t.getMessage());
+//                    }
+            }
             @Override
             public void Error(Throwable t) {
                 result.append("error, " + t.getMessage());
@@ -115,19 +134,22 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    boolean Login(){
+        boolean status=false;
+        return status;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         result = (TextView) findViewById(R.id.result);
-
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-                PICK_FROM_GALLERY);
-
-
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+//                PICK_FROM_GALLERY);
+        testRest();
     }
 
     public interface INext {
@@ -136,17 +158,15 @@ public class MainActivity extends ActionBarActivity {
         public void Error(Throwable t);
     }
 
-    public void FoundError(GitHubApi api, Throwable throwable) {
+    public void FoundError(GitHubApi api,final Throwable throwable) {
         doLogout(api, new INext() {
             @Override
             public void Finish(GitHubApi api) {
-                result.append(result.getText().toString());
-                result.append("finished getting data");
+                result.append("error, " + throwable.getMessage());
             }
 
             @Override
             public void Error(Throwable t) {
-                result.append(result.getText().toString());
                 result.append("error, " + t.getMessage());
             }
         });
@@ -156,7 +176,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
     }
-
 
     private void doGetSites(final GitHubApi gitHubApi, final INext next) {
         final GitHubApi api = gitHubApi;
@@ -369,26 +388,19 @@ public class MainActivity extends ActionBarActivity {
                                                    for (AssignmentData.TrxAssSites sites : trxAssSites) {
                                                        result.append("  id:" + sites.getAssSitesId() + "\n");
                                                        if (sites.getMstSite() != null) {
-                                                           result.append("  st  id      : " + sites.getMstSite().getId() + "\n");
-                                                           result.append("  st  name    : " + sites.getMstSite().getName() + "\n");
-                                                           result.append("  st  phone   : " + sites.getMstSite().getPhone() + "\n");
-                                                           result.append("  st  address : " + sites.getMstSite().getAddress() + "\n");
-                                                           if (sites.getMstSite().getMstBranchSites() != null) {
-                                                               result.append("  st  branch  id     :" + sites.getMstSite().getMstBranchSites().getId() + "\n");
-                                                               result.append("  st  branch  name   :" + sites.getMstSite().getMstBranchSites().getName() + "\n");
-                                                           }
-                                                           if (sites.getMstSite().getMstBranchSites() != null) {
-                                                               result.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getId() + "\n");
-                                                               result.append("  st  group sites    :" + sites.getMstSite().getMstGroupSites().getName() + "\n");
-                                                           }
-                                                           if (sites.getMstSite().getMstRegionSites() != null) {
-                                                               result.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getId() + "\n");
-                                                               result.append("  st  reg sites    :" + sites.getMstSite().getMstGroupSites().getName() + "\n");
-                                                           }
-                                                           if (sites.getMstSite().getMstTierSites() != null) {
-                                                               result.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getId() + "\n");
-                                                               result.append("  st  tier sites    :" + sites.getMstSite().getMstGroupSites().getName() + "\n");
-                                                           }
+                                                           result.append("  id          : " + sites.getMstSite().getId() + "\n");
+                                                           result.append("  name        : " + sites.getMstSite().getName() + "\n");
+                                                           result.append("  phone       : " + sites.getMstSite().getPhone() + "\n");
+                                                           result.append("  address     : " + sites.getMstSite().getAddress() + "\n");
+                                                           result.append("  getIdMstBranchSites  : " + sites.getMstSite().getIdMstBranchSites() + "\n");
+                                                           result.append("  getIdMstGroupSites   : " + sites.getMstSite().getIdMstGroupSites() + "\n");
+                                                           result.append("  getIdMstRegionSites  : " + sites.getMstSite().getIdMstRegionSites() + "\n");
+                                                           result.append("  getIdMstTierSites    : " + sites.getMstSite().getIdMstTierSites() + "\n");
+                                                           result.append("  idMstChannelSites    : " + sites.getMstSite().getIdMstChannelSites() + "\n");
+                                                           result.append("  idMstPrioritySites   : " + sites.getMstSite().getIdMstPrioritySites() + "\n");
+                                                           result.append("  idMstCitySites       : " + sites.getMstSite().getIdMstCitySites() + "\n");
+
+
                                                        } else {
                                                            result.append("got sites.getMstSite() null" + "\n");
                                                        }
@@ -514,6 +526,64 @@ public class MainActivity extends ActionBarActivity {
                                            result.append("submitdate:" + datum.getSubmitDate() + "\n");
                                            result.append("path:" + datum.getImagePath() + "\n");
                                            result.append("getIdTrxAssignmentSites:" + datum.getIdTrxAssignmentSites() + "\n");
+                                       }
+                                   }
+                               }
+                           }, new Action1<Throwable>() {
+                               @Override
+                               public void call(Throwable throwable) {
+                                   next.Error(throwable);
+                               }
+                           },
+                        new Action0() {
+                            @Override
+                            public void call() {
+                                next.Finish(gitHubApi);
+                            }
+                        }
+                );
+    }
+
+    private void doUploadReport (final GitHubApi gitHubApi, final INext next){
+        TypedString reportData = new TypedString(
+                " [{\n" +
+                "        \"idTrxAssignmentSites\": 1,\n" +
+                "        \"idMstModel\": \"TV001\",\n" +
+                "        \"display\": 5,\n" +
+                "        \"listTrxReportModelMaterials\": [\n" +
+                "            {\n" +
+                "                \"idMstMaterial\": \"MAT05\",\n" +
+                "                \"actual\": 4\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"idMstMaterial\": \"MAT04\",\n" +
+                "                \"actual\": 5\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"idMstMaterial\": \"MAT03\",\n" +
+                "                \"actual\": 4\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    }]");
+
+
+        gitHubApi.oSubmitReport(xBbSession,"Application/json",reportData)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<SubmitReport>() {
+                               @Override
+                               public void call(SubmitReport data) {
+                                   result.append("---------------------\n");
+                                   result.append("     Upload Report  \n");
+                                   result.append("---------------------\n");
+                                   result.append("http code:" + data.getHttp_code() + "\n");
+                                   result.append("status:" + data.getResult() + "\n");
+                                   SubmitReport.Data[] vData = data.getData();
+                                   if (vData != null) {
+                                       for (SubmitReport.Data datum:vData) {
+                                           result.append("id:" + datum.getId() + "\n");
+                                           result.append("idTrxAssignmentSites:" + datum.getIdTrxAssignmentSites() + "\n");
+                                           result.append("idMstModel:" + datum.getIdMstModel() + "\n");
+                                           result.append("display:" + datum.getDisplay() + "\n");
                                        }
                                    }
                                }

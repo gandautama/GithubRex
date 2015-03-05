@@ -9,44 +9,35 @@ import com.google.gson.annotations.SerializedName;
 "data":
  [
      {
-        "id": 1,
-        "idMstUserVde": "tommy.t",
-        "idMstUserVdo": "pitoyo.s",
-        "idMstUserVdr": "ihsan.t",
-        "title": "Assignment 01",
-        "periodStartDate": "2015-01-01",
-        "periodEndDate": "2015-03-31",
-        "state": 1,
-        "createDate": "2015-01-01",
-        "closeDate": null,
-        "listTrxAssignmentSites":
-        [
+         "id": 1,
+         "idMstUserVde": "tommy.t",
+         "idMstUserVdo": "pitoyo.s",
+         "idMstUserVdr": "ihsan.t",
+         "title": "Assignment 01",
+         "periodStartDate": "2015-01-01",
+         "periodEndDate": "2015-03-31",
+         "state": 1,
+         "createDate": "2015-01-01",
+         "closeDate": null,
+         "listTrxAssignmentSites":
+          [
              {
-                 "id": 1,
-                 "mstSite": {
+             "id": 1,
+                "mstSite": {
                      "id": "C002882554",
-                     "name": "WINNJAYA",
                      "address": "Address of WINNJAYA",
+                     "name": "WINNJAYA",
                      "phone": "null",
-                     "mstBranchSites": {
-                         "id": 12,
-                         "name": "MEDAN"
-                     },
-                     "mstGroupSites": {
-                         "id": 9,
-                         "name": "NON GROUP"
-                     },
-                     "mstRegionSites": {
-                         "id": 4,
-                         "name": "WEST"
-                     },
-                     "mstTierSites": {
-                         "id": 9,
-                         "name": "TRADITIONAL"
-                     }
+                     "idMstBranchSites": 12,
+                     "idMstGroupSites": 9,
+                     "idMstRegionSites": 4,
+                     "idMstTierSites": 9,
+                     "idMstChannelSites": 1,
+                     "idMstPrioritySites": 1,
+                     "idMstCitySites": 9
                 }
             }
-        ]
+         ]
     }
  ]
  */
@@ -61,6 +52,11 @@ public class AssignmentData {
 
     @SerializedName("http_code")
      int http_code;
+    @SerializedName("result")
+    String result;
+    @SerializedName("data")
+
+    public Assignment[] assignments;
 
     public String getResult() {
         return result;
@@ -70,9 +66,6 @@ public class AssignmentData {
         this.result = result;
     }
 
-    @SerializedName("result")
-     String result;
-
     public Assignment[] getAssignments() {
         return assignments;
     }
@@ -80,9 +73,6 @@ public class AssignmentData {
     public void setData(Assignment[] assignments) {
         this.assignments = assignments;
     }
-
-    @SerializedName("data")
-    public Assignment[] assignments;
 
     public class Assignment {
         public int getId() {
@@ -220,22 +210,21 @@ public class AssignmentData {
         @SerializedName("mstSite")
         MstSite mstSite;
     }
+  /*  "mstSite": {
+        "id": "C002882554",
+        "address": "Address of WINNJAYA",
+        "name": "WINNJAYA",
+        "phone": "null",
+
+    }*/
 
     public class MstSite{
         public String getId() {
             return id;
         }
 
-        public void setId(String mstSitesId) {
+        public void setId(String id) {
             this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String mstName) {
-            this.name = mstName;
         }
 
         public String getAddress() {
@@ -246,6 +235,14 @@ public class AssignmentData {
             this.address = address;
         }
 
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
         public String getPhone() {
             return phone;
         }
@@ -254,146 +251,85 @@ public class AssignmentData {
             this.phone = phone;
         }
 
-        public MstBranchSites getMstBranchSites() {
-            return mstBranchSites;
+        public int getIdMstBranchSites() {
+            return idMstBranchSites;
         }
 
-        public void setMstBranchSites(MstBranchSites mstBranchSites) {
-            this.mstBranchSites = mstBranchSites;
+        public void setIdMstBranchSites(int idMstBranchSites) {
+            this.idMstBranchSites = idMstBranchSites;
         }
 
-        public MstGroupSites getMstGroupSites() {
-            return mstGroupSites;
+        public int getIdMstGroupSites() {
+            return idMstGroupSites;
         }
 
-        public void setMstGroupSites(MstGroupSites mstGroupSites) {
-            this.mstGroupSites = mstGroupSites;
+        public void setIdMstGroupSites(int idMstGroupSites) {
+            this.idMstGroupSites = idMstGroupSites;
         }
 
-        public MstRegionSites getMstRegionSites() {
-            return mstRegionSites;
+        public int getIdMstRegionSites() {
+            return idMstRegionSites;
         }
 
-        public void setMstRegionSites(MstRegionSites mstRegionSites) {
-            this.mstRegionSites = mstRegionSites;
+        public void setIdMstRegionSites(int idMstRegionSites) {
+            this.idMstRegionSites = idMstRegionSites;
         }
 
-        public MstTierSites getMstTierSites() {
-            return mstTierSites;
+        public int getIdMstTierSites() {
+            return idMstTierSites;
         }
 
-        public void setMstTierSites(MstTierSites mstTierSites) {
-            this.mstTierSites = mstTierSites;
+        public void setIdMstTierSites(int idMstTierSites) {
+            this.idMstTierSites = idMstTierSites;
+        }
+
+        public int getIdMstChannelSites() {
+            return idMstChannelSites;
+        }
+
+        public void setIdMstChannelSites(int idMstChannelSites) {
+            this.idMstChannelSites = idMstChannelSites;
+        }
+
+        public int getIdMstPrioritySites() {
+            return idMstPrioritySites;
+        }
+
+        public void setIdMstPrioritySites(int idMstPrioritySites) {
+            this.idMstPrioritySites = idMstPrioritySites;
+        }
+
+        public int getIdMstCitySites() {
+            return idMstCitySites;
+        }
+
+        public void setIdMstCitySites(int idMstCitySites) {
+            this.idMstCitySites = idMstCitySites;
         }
 
         @SerializedName("id")
         String id;
-        @SerializedName("name")
-        String name;
         @SerializedName("address")
         String address;
+        @SerializedName("name")
+        String name;
         @SerializedName("phone")
         String phone;
-        @SerializedName("mstBranchSites")
-        MstBranchSites mstBranchSites;
-        @SerializedName("mstGroupSites")
-        MstGroupSites mstGroupSites;
-        @SerializedName("mstRegionSites")
-        MstRegionSites mstRegionSites;
-        @SerializedName("mstTierSites")
-        MstTierSites mstTierSites;
+        @SerializedName("idMstBranchSites")
+        int idMstBranchSites;
+        @SerializedName("idMstGroupSites")
+        int idMstGroupSites;
+        @SerializedName("idMstRegionSites")
+        int idMstRegionSites;
+        @SerializedName("idMstTierSites")
+        int idMstTierSites;
+        @SerializedName("idMstChannelSites")
+        int idMstChannelSites;
+        @SerializedName("idMstPrioritySites")
+        int idMstPrioritySites;
+        @SerializedName("idMstCitySites")
+        int idMstCitySites;
     }
 
-    public class MstBranchSites{
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name=name;
-        }
-
-        @SerializedName("id")
-        int id;
-        @SerializedName("name")
-        String name;
-    }
-
-    public class MstGroupSites{
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int mstGroupSitesId) {
-            this.id = mstGroupSitesId;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName (String name) {
-            this.name = name;
-        }
-
-        @SerializedName("id")
-        int id;
-        @SerializedName("name")
-        String name;
-    }
-
-    public class MstRegionSites{
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        @SerializedName("id")
-        int id;
-        @SerializedName("name")
-        String name;
-    }
-
-    public class MstTierSites {
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int mstTierSitesId) {
-            this.id = mstTierSitesId;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String mstTierSitesName) {
-            this.name = mstTierSitesName;
-        }
-
-        @SerializedName("id")
-        int id;
-        @SerializedName("name")
-        String name;
-    }
 
 }
