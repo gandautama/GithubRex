@@ -13,11 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import retrofit.Callback;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
 import retrofit.client.OkClient;
-import retrofit.client.Response;
 import retrofit.mime.TypedString;
 import retrofit.mime.TypedFile;
 import rx.Observable;
@@ -499,52 +496,40 @@ public class MainActivity extends ActionBarActivity {
 
     private void doUploadPicture(final GitHubApi gitHubApi, final INext next) {
         TypedFile file = new TypedFile("image/jpeg",new File(fileUri));
-        TypedString evidenceData = new TypedString("{\"dTrxAssignmentSites\": 1, \"report\": \"testuploadganda\" }");
-
-        gitHubApi.oUploadPicture(xBbSession,file,evidenceData, new Callback<UploadPicture>() {
-            @Override
-            public void success(UploadPicture uploadPicture, Response response) {
-                // TODO ok
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                error.printStackTrace();
-            }
-        });
-//        gitHubApi.oUploadPicture(xBbSession,file,evidenceData)
-//            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Action1<UploadPicture>() {
-//                               @Override
-//                               public void call(UploadPicture data) {
-//                                   result.append("---------------------\n");
-//                                   result.append("     Upload Picture  \n");
-//                                   result.append("---------------------\n");
-//                                   result.append("http code:" + data.getHttp_code() + "\n");
-//                                   result.append("status:" + data.getResult() + "\n");
-//                                   UploadPicture.Data[] vData = data.getData();
-//                                   if (vData != null) {
-//                                       for (UploadPicture.Data datum:vData) {
-//                                           result.append("id:" + datum.getId() + "\n");
-//                                           result.append("submitdate:" + datum.getSubmitDate() + "\n");
-//                                           result.append("path:" + datum.getImagePath() + "\n");
-//                                           result.append("getIdTrxAssignmentSites:" + datum.getIdTrxAssignmentSites() + "\n");
-//                                       }
-//                                   }
-//                               }
-//                           }, new Action1<Throwable>() {
-//                               @Override
-//                               public void call(Throwable throwable) {
-//                                   next.Error(throwable);
-//                               }
-//                           },
-//                        new Action0() {
-//                            @Override
-//                            public void call() {
-//                                next.Finish(gitHubApi);
-//                            }
-//                        }
-//                );
+        TypedString evidenceData = new TypedString("{\"idTrxAssignmentSites\":1,\"report\":\"testuploadganda\"}");
+        gitHubApi.oUploadPicture(xBbSession,file,evidenceData)
+            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<UploadPicture>() {
+                               @Override
+                               public void call(UploadPicture data) {
+                                   result.append("---------------------\n");
+                                   result.append("     Upload Picture  \n");
+                                   result.append("---------------------\n");
+                                   result.append("http code:" + data.getHttp_code() + "\n");
+                                   result.append("status:" + data.getResult() + "\n");
+                                   UploadPicture.Data[] vData = data.getData();
+                                   if (vData != null) {
+                                       for (UploadPicture.Data datum:vData) {
+                                           result.append("id:" + datum.getId() + "\n");
+                                           result.append("submitdate:" + datum.getSubmitDate() + "\n");
+                                           result.append("path:" + datum.getImagePath() + "\n");
+                                           result.append("getIdTrxAssignmentSites:" + datum.getIdTrxAssignmentSites() + "\n");
+                                       }
+                                   }
+                               }
+                           }, new Action1<Throwable>() {
+                               @Override
+                               public void call(Throwable throwable) {
+                                   next.Error(throwable);
+                               }
+                           },
+                        new Action0() {
+                            @Override
+                            public void call() {
+                                next.Finish(gitHubApi);
+                            }
+                        }
+                );
     }
 
     @Override
