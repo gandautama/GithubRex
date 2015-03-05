@@ -5,34 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by ganda on 27/02/15.
  */
-//{
-//        data: [
-//            {
-//                id: "C002882554",
-//                name: "WINNJAYA",
-//                address: "Address of WINNJAYA",
-//                phone: "null",
-//                mstBranchSites: {
-//                    id: 12,
-//                    name: "MEDAN"
-//                },
-//                mstGroupSites: {
-//                    id: 9,
-//                    name: "NON GROUP"
-//                },
-//                mstRegionSites: {
-//                    id: 4,
-//                    name: "WEST"
-//                },
-//                mstTierSites: {
-//                    id: 9,
-//                    name: "TRADITIONAL"
-//                }
-//            },
-//        ]
-//        http_code: 200,
-//        result: "ok"
-//        }
+
 public class Sites {
 
     public int getHttp_code() {
@@ -69,30 +42,7 @@ public class Sites {
     public Data[] data;
 
     public class Data {
-        @SerializedName("id")
-        String id;
-        @SerializedName("name")
-        String name;
-        @SerializedName("address")
-        String address;
-        @SerializedName("phone")
-        String phone;
-        @SerializedName("mstBranchSites")
-        MstBranchSites mstBranchSites;
-        @SerializedName("mstGroupSites")
-        MstGroupSites mstGroupSites;
-        @SerializedName("mstRegionSites")
-        MstRegionSites mstRegionSites;
-        @SerializedName("mstTierSites")
-        MstTierSites mstTierSites;
 
-        public MstTierSites getMstTierSites() {
-            return mstTierSites;
-        }
-
-        public void setMstTierSites(MstTierSites mstTierSites) {
-            this.mstTierSites = mstTierSites;
-        }
 
         public String getId() {
             return id;
@@ -126,123 +76,86 @@ public class Sites {
             this.phone = phone;
         }
 
-        public MstBranchSites getMstBranchSites() {
-            return mstBranchSites;
+        public int getIdMstBranchSites() {
+            return idMstBranchSites;
         }
 
-        public void setMstBranchSites(MstBranchSites mstBranchSites) {
-            this.mstBranchSites = mstBranchSites;
+        public void setIdMstBranchSites(int idMstBranchSites) {
+            this.idMstBranchSites = idMstBranchSites;
         }
 
-        public MstGroupSites getMstGroupSites() {
-            return mstGroupSites;
+        public int getIdMstGroupSites() {
+            return idMstGroupSites;
         }
 
-        public void setMstGroupSites(MstGroupSites mstGroupSites) {
-            this.mstGroupSites = mstGroupSites;
+        public void setIdMstGroupSites(int idMstGroupSites) {
+            this.idMstGroupSites = idMstGroupSites;
         }
 
-        public MstRegionSites getMstRegionSites() {
-            return mstRegionSites;
+        public int getIdMstRegionSites() {
+            return idMstRegionSites;
         }
 
-        public void setMstRegionSites(MstRegionSites mstRegionSites) {
-            this.mstRegionSites = mstRegionSites;
+        public void setIdMstRegionSites(int idMstRegionSites) {
+            this.idMstRegionSites = idMstRegionSites;
         }
 
+        public int getIdMstTierSites() {
+            return idMstTierSites;
+        }
 
-    }
+        public void setIdMstTierSites(int idMstTierSites) {
+            this.idMstTierSites = idMstTierSites;
+        }
 
-    public class MstBranchSites {
+        public int getIdMstChannelSites() {
+            return idMstChannelSites;
+        }
+
+        public void setIdMstChannelSites(int idMstChannelSites) {
+            this.idMstChannelSites = idMstChannelSites;
+        }
+
+        public int getIdMstPrioritySites() {
+            return idMstPrioritySites;
+        }
+
+        public void setIdMstPrioritySites(int idMstPrioritySites) {
+            this.idMstPrioritySites = idMstPrioritySites;
+        }
+
+        public int getIdMstCitySites() {
+            return idMstCitySites;
+        }
+
+        public void setIdMstCitySites(int idMstCitySites) {
+            this.idMstCitySites = idMstCitySites;
+        }
+
         @SerializedName("id")
         String id;
         @SerializedName("name")
         String name;
+        @SerializedName("address")
+        String address;
+        @SerializedName("phone")
+        String phone;
+        @SerializedName("idMstBranchSites")
+        int idMstBranchSites;
+        @SerializedName("idMstGroupSites")
+        int idMstGroupSites;
+        @SerializedName("idMstRegionSites")
+        int idMstRegionSites;
+        @SerializedName("idMstTierSites")
+        int idMstTierSites;
+        @SerializedName("idMstChannelSites")
+        int idMstChannelSites;
+        @SerializedName("idMstPrioritySites")
+        int idMstPrioritySites;
+        @SerializedName("idMstCitySites")
+        int idMstCitySites;
 
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
     }
 
-    public class MstGroupSites {
-        @SerializedName("id")
-        String id;
-        @SerializedName("name")
-        String name;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    public class MstRegionSites {
-        @SerializedName("id")
-        String id;
-        @SerializedName("name")
-        String name;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    public class MstTierSites {
-        @SerializedName("id")
-        String id;
-        @SerializedName("name")
-        String name;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
 
 }

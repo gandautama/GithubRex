@@ -60,7 +60,39 @@ public class Model {
         }
 
 
-//        "id": "75H6400",
+        public int getIdMstMaterialGroup() {
+            return idMstMaterialGroup;
+        }
+
+        public void setIdMstMaterialGroup(int idMstMaterialGroup) {
+            this.idMstMaterialGroup = idMstMaterialGroup;
+        }
+
+        public int getIdMstCategoryModels() {
+            return idMstCategoryModels;
+        }
+
+        public void setIdMstCategoryModels(int idMstCategoryModels) {
+            this.idMstCategoryModels = idMstCategoryModels;
+        }
+
+        public int getIdMstZoningModels() {
+            return idMstZoningModels;
+        }
+
+        public void setIdMstZoningModels(int idMstZoningModels) {
+            this.idMstZoningModels = idMstZoningModels;
+        }
+
+        public int getIdMstTypeModels() {
+            return idMstTypeModels;
+        }
+
+        public void setIdMstTypeModels(int idMstTypeModels) {
+            this.idMstTypeModels = idMstTypeModels;
+        }
+
+        //        "id": "75H6400",
 //                "name": "75 Samsung Standard TV",
 //                "idMstMaterialGroup": 2,
 //                "idMstCategoryModels": 1,
@@ -70,17 +102,14 @@ public class Model {
         String id;
         @SerializedName("name")
         String name;
-        mstCategoryModels;
-        mstMaterialGroup
-
-
-
-        }
-
+        @SerializedName("idMstMaterialGroup")
+        int idMstMaterialGroup;
+        @SerializedName("idMstCategoryModels")
+        int idMstCategoryModels;
+        @SerializedName("idMstZoningModels")
+        int idMstZoningModels;
+        @SerializedName("idMstTypeModels")
+        int idMstTypeModels;
 
     }
-
-
-
-
 }

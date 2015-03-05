@@ -86,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
 //                doUploadPicture(api, new INext() {
 //                    @Override
 //                    public void Finish(GitHubApi api) {
-                doGetAssignment(api, new INext() {
+                doGetSites(api, new INext() {
                     @Override
                     public void Finish(GitHubApi api) {
                         doUploadReport(api, new INext() {
@@ -196,23 +196,17 @@ public class MainActivity extends ActionBarActivity {
                                                result.append("id         :" + data.getId() + "\n");
                                                result.append("name       :" + data.getName() + "\n");
                                                result.append("address    :" + data.getAddress() + "\n");
-                                               result.append("phone      :" + data.getPhone() + "\n");
-                                               if (data.getMstBranchSites() != null) {
-                                                   result.append("br id      :" + data.getMstBranchSites().getId() + "\n");
-                                                   result.append("br name    :" + data.getMstBranchSites().getName() + "\n");
-                                               }
-                                               if (data.getMstGroupSites() != null) {
-                                                   result.append("grp st id  :" + data.getMstGroupSites().getId() + "\n");
-                                                   result.append("grp st name:" + data.getMstGroupSites().getName() + "\n");
-                                               }
-                                               if (data.getMstRegionSites() != null) {
-                                                   result.append("reg id     :" + data.getMstRegionSites().getId() + "\n");
-                                                   result.append("reg name   :" + data.getMstRegionSites().getId() + "\n");
-                                               }
-                                               if (data.getMstTierSites() != null) {
-                                                   result.append("tier id     :" + data.getMstTierSites().getId() + "\n");
-                                                   result.append("tier name   :" + data.getMstTierSites().getId() + "\n");
-                                               }
+                                               result.append("getIdMstPrioritySites  :" + data.getIdMstPrioritySites() + "\n");
+                                               result.append("getIdMstTierSites      :" + data.getIdMstTierSites() + "\n");
+                                               result.append("getIdMstChannelSites   :" + data.getIdMstChannelSites()+ "\n");
+                                               result.append("getIdMstRegionSites    :" + data.getIdMstRegionSites() + "\n");
+                                               result.append("getIdMstGroupSites     :" + data.getIdMstGroupSites() + "\n");
+                                               result.append("getIdMstBranchSites    :" + data.getIdMstBranchSites()+ "\n");
+                                               result.append("getIdMstChannelSites   :" + data.getIdMstChannelSites() + "\n");
+                                               result.append("getIdMstPrioritySites  :" + data.getIdMstPrioritySites() + "\n");
+                                               result.append("getIdMstTierSites      :" + data.getIdMstTierSites() + "\n");
+
+
                                            }
                                        }
                                    }
@@ -248,32 +242,11 @@ public class MainActivity extends ActionBarActivity {
 
                                        if (model.getData() != null) {
                                            for (Model.Data data : model.getData()) {
-                                               result.append("  model id       : " + data.getId() + "\n");
-                                               result.append("  model name     : " + data.getName() + "\n");
-                                               result.append("  category id    : " + data.getMstCategoryModels().getId() + "\n");
-                                               result.append("  category name  : " + data.getMstCategoryModels().getName() + "\n");
-                                               result.append("  type id      : " + data.getMstCategoryModels().getId() + "\n");
-                                               result.append("  type name    : " + data.getName() + "\n");
-                                               result.append("  zoning id    : " + data.getMstCategoryModels().getId() + "\n");
-                                               result.append("  zoning name  : " + data.getName() + "\n");
-                                               result.append("  mat group id   : " + data.getMstMaterialGroup().getId() + "\n");
-                                               result.append("  mat group name : " + data.getMstMaterialGroup().getName() + "\n");
-                                               if (data.getMstMaterialGroup().getListMstGroupMaterials() != null) {
-                                                   for (Model.MstGroupMaterials matGroup : data.getMstMaterialGroup().getListMstGroupMaterials()) {
-
-                                                       result.append("    id             : " + matGroup.getId() + "\n");
-                                                       result.append("    idMstGroup     : " + matGroup.getIdMstMaterialGroup() + "\n");
-                                                       result.append("    idMstMaterial  : " + matGroup.getIdMstMaterial() + "\n");
-
-                                                       if (matGroup.getMstMaterial() != null) {
-                                                           result.append("    mat id:" + matGroup.getMstMaterial().getId() + "\n");
-                                                           result.append("    mat name:" + matGroup.getMstMaterial().getName() + "\n");
-                                                           result.append("    mat qty:" + matGroup.getMstMaterial().getQuantity() + "\n");
-                                                           result.append("        type id  :" + matGroup.getMstMaterial().getMstTypeMaterials().getId() + "\n");
-                                                           result.append("        type name:" + matGroup.getMstMaterial().getMstTypeMaterials().getName() + "\n");
-                                                       }
-                                                   }
-                                               }
+                                               result.append("model id            : " + data.getId() + "\n");
+                                               result.append("idMstMaterialGroup  : " + data.getIdMstMaterialGroup() + "\n");
+                                               result.append("idMstCategoryModels : " + data.getIdMstCategoryModels() + "\n");
+                                               result.append("idMstZoningModels   : " + data.getIdMstZoningModels() + "\n");
+                                               result.append("idMstTypeModels     : " + data.getIdMstTypeModels() + "\n");
                                            }
                                        }
                                    }
