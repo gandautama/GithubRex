@@ -61,12 +61,12 @@ public interface GitHubApi {
     );
 
     @Multipart
-    @POST("/file")
+    @POST("/manado/assignment/evidence")
     Observable<UploadPicture>
-    oPicture(@Part("file") TypedFile fileUploaded,
-             @Part("attachedData") TypedString infostring,
-             @Part("acl") TypedString acl,
-             @Header("X-BAASBOX-APPCODE") String appcode,
-             @Header("X-BB-SESSION") String session);
+    oUploadPicture(
+            @Header("X-BB-SESSION") String session,
+            @Part("file") TypedFile fileUploaded,
+            @Part("evidenceData") TypedString evidenceData
+    );
 
 }

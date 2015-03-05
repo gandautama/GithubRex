@@ -1,6 +1,11 @@
 package com.arjunalabs.android.githubrex;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,9 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 import retrofit.client.OkClient;
+import retrofit.client.Response;
 import retrofit.mime.TypedString;
+import retrofit.mime.TypedFile;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -23,9 +32,11 @@ import com.arjunalabs.android.githubrex.model.Login;
 import com.arjunalabs.android.githubrex.model.Logout;
 import com.arjunalabs.android.githubrex.model.Model;
 import com.arjunalabs.android.githubrex.model.Sites;
+import com.arjunalabs.android.githubrex.model.UploadPicture;
 import com.arjunalabs.android.githubrex.model.VersionApp;
 import com.arjunalabs.android.githubrex.model.VersionData;
 
+import java.io.File;
 import java.lang.Override;
 import java.lang.Throwable;
 import java.util.List;
@@ -35,11 +46,77 @@ public class MainActivity extends ActionBarActivity {
 
     private final String REPO_USER = "ReactiveX";
     private final String REPO_NAME = "RxJava";
-
+    private static int RESULT_LOAD_IMAGE = 1;
+    private static final int PICK_FROM_GALLERY = 2;
     private TextView result;
 
     static String xBbSession = "";
     final String appCode = "manado";
+    String fileUri;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+                String selectedImagePath = null;
+        Uri selectedImageUri = data.getData();
+        Activity activity = this;
+        Cursor cursor = activity.getContentResolver().query(selectedImageUri, null, null,
+        null, null);
+        if (cursor == null) {
+            selectedImagePath = selectedImageUri.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            fileUri = cursor.getString(idx);
+            result.append("image location " + fileUri);
+            uploadImage();
+        }
+
+
+    }
+
+    void uploadImage(){
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://107.102.182.83:9000")
+                .setClient(new OkClient())
+                .build();
+        final GitHubApi gitHubApi = restAdapter.create(GitHubApi.class);
+        doLogin(gitHubApi, new INext() {
+            //login
+            @Override
+            public void Finish(GitHubApi api) {
+                doUploadPicture(api, new INext() {
+                    @Override
+                    public void Finish(GitHubApi api) {
+                        doLogout(api, new INext() {
+                            @Override
+                            public void Finish(GitHubApi api) {
+                                result.append("finished getting data");
+                                xBbSession = "";
+                            }
+
+                            @Override
+                            public void Error(Throwable t) {
+                                result.append("error, " + t.getMessage());
+                            }
+                        });
+                    }
+                    @Override
+                    public void Error(Throwable t) {
+                        result.append("error, " + t.getMessage());
+                    }
+                });
+             }
+
+            @Override
+            public void Error(Throwable t) {
+                result.append("error, " + t.getMessage());
+            }
+
+        });
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,87 +124,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         result = (TextView) findViewById(R.id.result);
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://107.102.182.83:9000")
-                .setClient(new OkClient())
-                .build();
-            final GitHubApi gitHubApi = restAdapter.create(GitHubApi.class);
-            doLogin(gitHubApi, new INext() {
-                //login
-                @Override
-                public void Finish(GitHubApi api) {
-//get version data
-                    doGetVersionApp(api, new INext() {
-                        @Override
-                        public void Finish(GitHubApi api) {
-//get version app
-                            doGetVersionData(api, new INext() {
-                                @Override
-                                public void Finish(GitHubApi api) {
-    ////get assignment
-                                    doGetAssignment(api, new INext() {
-                                        @Override
-                                        public void Finish(GitHubApi api) {
-
-                                            doGetModel(api, new INext() {
-                                                @Override
-                                                public void Finish(GitHubApi api) {
-                                                   doGetSites(api, new INext() {
-                                                       @Override
-                                                       public void Finish(GitHubApi api) {
-                                                           doLogout(api, new INext() {
-                                                               @Override
-                                                               public void Finish(GitHubApi api) {
-                                                                   result.append("finished getting data");
-                                                                   xBbSession = "";
-                                                               }
-
-                                                               @Override
-                                                               public void Error(Throwable t) {
-                                                                   result.append("error, " + t.getMessage());
-                                                               }
-                                                           });
-                                                       }
-
-                                                       @Override
-                                                       public void Error(Throwable t) {
-                                                           result.append("error, " + t.getMessage());
-                                                       }
-                                                   });
-                                                }
-
-                                                @Override
-                                                public void Error(Throwable t) {
-                                                    result.append("error, " + t.getMessage());
-                                                }
-                                            });
-                                        }
-                                        @Override
-                                        public void Error (Throwable t){
-                                            FoundError(gitHubApi, t);
-                                        }
-                                    });
-                                }
-                                @Override
-                                public void Error (Throwable t){
-                                    FoundError(gitHubApi, t);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void Error (Throwable t){
-                            result.append("error, " + t.getMessage());
-                        }
-                    });
-                }
-
-                @Override
-                public void Error(Throwable t) {
-                    result.append("error, " + t.getMessage());
-                }
-
-            });
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                PICK_FROM_GALLERY);
 
 
     }
@@ -494,6 +495,56 @@ public class MainActivity extends ActionBarActivity {
                             }
                         }
                 );
+    }
+
+    private void doUploadPicture(final GitHubApi gitHubApi, final INext next) {
+        TypedFile file = new TypedFile("image/jpeg",new File(fileUri));
+        TypedString evidenceData = new TypedString("{\"dTrxAssignmentSites\": 1, \"report\": \"testuploadganda\" }");
+
+        gitHubApi.oUploadPicture(xBbSession,file,evidenceData, new Callback<UploadPicture>() {
+            @Override
+            public void success(UploadPicture uploadPicture, Response response) {
+                // TODO ok
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+            }
+        });
+//        gitHubApi.oUploadPicture(xBbSession,file,evidenceData)
+//            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action1<UploadPicture>() {
+//                               @Override
+//                               public void call(UploadPicture data) {
+//                                   result.append("---------------------\n");
+//                                   result.append("     Upload Picture  \n");
+//                                   result.append("---------------------\n");
+//                                   result.append("http code:" + data.getHttp_code() + "\n");
+//                                   result.append("status:" + data.getResult() + "\n");
+//                                   UploadPicture.Data[] vData = data.getData();
+//                                   if (vData != null) {
+//                                       for (UploadPicture.Data datum:vData) {
+//                                           result.append("id:" + datum.getId() + "\n");
+//                                           result.append("submitdate:" + datum.getSubmitDate() + "\n");
+//                                           result.append("path:" + datum.getImagePath() + "\n");
+//                                           result.append("getIdTrxAssignmentSites:" + datum.getIdTrxAssignmentSites() + "\n");
+//                                       }
+//                                   }
+//                               }
+//                           }, new Action1<Throwable>() {
+//                               @Override
+//                               public void call(Throwable throwable) {
+//                                   next.Error(throwable);
+//                               }
+//                           },
+//                        new Action0() {
+//                            @Override
+//                            public void call() {
+//                                next.Finish(gitHubApi);
+//                            }
+//                        }
+//                );
     }
 
     @Override
