@@ -69,7 +69,7 @@ public class MainActivity extends ActionBarActivity {
             int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             fileUri = cursor.getString(idx);
             result.append("image location " + fileUri);
-//            uploadImage();
+            testRest();
         }
     }
 
@@ -84,20 +84,27 @@ public class MainActivity extends ActionBarActivity {
         doLogin(gitHubApi, new INext() {
             @Override
             public void Finish(GitHubApi api) {
-//                doUploadPicture(api, new INext() {
-//                    @Override
-//                    public void Finish(GitHubApi api) {
-//                doGetSites(api, new INext() {
-//                    @Override
-//                    public void Finish(GitHubApi api) {
-                        doUploadReport(api, new INext() {
+                doUploadPicture(api, new INext() {
+                    @Override
+                    public void Finish(GitHubApi api) {
+                        doGetMstMaterialGroupList(api, new INext() {
                             @Override
                             public void Finish(GitHubApi api) {
-                                doLogout(api, new INext() {
+                                doUploadReport(api, new INext() {
                                     @Override
                                     public void Finish(GitHubApi api) {
-                                        result.append("finished getting data");
-                                        xBbSession = "";
+                                        doLogout(api, new INext() {
+                                            @Override
+                                            public void Finish(GitHubApi api) {
+                                                result.append("finished getting data");
+                                                xBbSession = "";
+                                            }
+
+                                            @Override
+                                            public void Error(Throwable t) {
+                                                result.append("error, " + t.getMessage());
+                                            }
+                                        });
                                     }
 
                                     @Override
@@ -112,19 +119,12 @@ public class MainActivity extends ActionBarActivity {
                                 result.append("error, " + t.getMessage());
                             }
                         });
-//                    }
-//
-//                    @Override
-//                    public void Error(Throwable t) {
-//                        result.append("error, " + t.getMessage());
-//                    }
-//                });
-//
-//                    }
-//                    @Override
-//                    public void Error(Throwable t) {
-//                        result.append("error, " + t.getMessage());
-//                    }
+                    }
+                    @Override
+                    public void Error(Throwable t) {
+                        result.append("error, " + t.getMessage());
+                    }
+                });
             }
             @Override
             public void Error(Throwable t) {
@@ -145,12 +145,12 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         result = (TextView) findViewById(R.id.result);
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-//                PICK_FROM_GALLERY);
-        testRest();
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                PICK_FROM_GALLERY);
+//        testRest();
     }
 
     public interface INext {
@@ -586,7 +586,7 @@ public class MainActivity extends ActionBarActivity {
                                public void call(MstZoningModels zoningModels) {
                                    if (zoningModels != null) {
                                        result.append("---------------------\n");
-                                       result.append("MstCategoryModelsList\n");
+                                       result.append("doGetMstCategoryModelsList\n");
                                        result.append("---------------------\n");
                                        result.append("http code:" + zoningModels.getHttp_code() + "\n");
                                        result.append("status:" + zoningModels.getResult() + "\n");
@@ -622,7 +622,7 @@ public class MainActivity extends ActionBarActivity {
                                public void call(Model model) {
                                    if (model != null) {
                                        result.append("---------------------\n");
-                                       result.append("        MODELS\n");
+                                       result.append("doGetMstZoningModelsList\n");
                                        result.append("---------------------\n");
                                        result.append("http code:" + model.getHttp_code() + "\n");
                                        result.append("status:" + model.getResult() + "\n");
@@ -660,7 +660,7 @@ public class MainActivity extends ActionBarActivity {
                                public void call(Model model) {
                                    if (model != null) {
                                        result.append("---------------------\n");
-                                       result.append("        MODELS\n");
+                                       result.append("doGetMstMaterialGroupList\n");
                                        result.append("---------------------\n");
                                        result.append("http code:" + model.getHttp_code() + "\n");
                                        result.append("status:" + model.getResult() + "\n");
@@ -698,7 +698,7 @@ public class MainActivity extends ActionBarActivity {
                                public void call(Model model) {
                                    if (model != null) {
                                        result.append("---------------------\n");
-                                       result.append("        MODELS\n");
+                                       result.append("doGetMstGroupMaterialsList\n");
                                        result.append("---------------------\n");
                                        result.append("http code:" + model.getHttp_code() + "\n");
                                        result.append("status:" + model.getResult() + "\n");
@@ -736,7 +736,7 @@ public class MainActivity extends ActionBarActivity {
                                public void call(Model model) {
                                    if (model != null) {
                                        result.append("---------------------\n");
-                                       result.append("        MODELS\n");
+                                       result.append("doGetMstMaterials\n");
                                        result.append("---------------------\n");
                                        result.append("http code:" + model.getHttp_code() + "\n");
                                        result.append("status:" + model.getResult() + "\n");

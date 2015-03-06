@@ -78,7 +78,7 @@ public interface GitHubApi {
              @Body TypedString body
     );
 
-    @GET("manado/MstZoningModels/list")
+    @GET("/manado/MstZoningModels/list")
     Observable<MstZoningModels> oMstZoningModelsList(
             @Header("X-BB-SESSION") String session
     );
