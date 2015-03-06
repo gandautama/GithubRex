@@ -29,16 +29,16 @@ public class MstMaterial {
     @SerializedName("result")
     String result;
 
-    public Data getData() {
+    public Data[] getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(Data[] data) {
         this.data = data;
     }
 
     @SerializedName("data")
-    public Data data;
+    public Data[] data;
     //"id": "MAT07",
 //        "name": "Material 07 DEMO_CONTENT",
 //        "idMstTypeMaterials": 2,

@@ -78,29 +78,25 @@ public interface GitHubApi {
              @Body TypedString body
     );
 
-
     @GET("manado/MstZoningModels/list")
-    Observable<Sites> oMstZoningModelsList(
+    Observable<MstZoningModels> oMstZoningModelsList(
             @Header("X-BB-SESSION") String session
     );
     @GET("/manado/MstMaterialGroup/list")
-    Observable<Sites> oMstMaterialGroupList(
+    Observable<MstMaterialGroup> oMstMaterialGroupList(
             @Header("X-BB-SESSION") String session
     );
     @GET("/manado/MstGroupMaterials/list")
-    Observable<Sites> oMstGroupMaterialsList(
+    Observable<MstGroupMaterials> oMstGroupMaterialsList(
             @Header("X-BB-SESSION") String session
     );
     @GET("/manado/MstCategoryModels/list")
-    Observable<Sites> MstCategoryModelsList(
+    Observable<MstCategoryModels> MstCategoryModelsList(
             @Header("X-BB-SESSION") String session
     );
     @GET("/manado/MstMaterial/list")
-    Observable<Sites> oMstMaterialList(
+    Observable<MstMaterial> oMstMaterialList(
             @Header("X-BB-SESSION") String session
     );
-
-
-
 
 }

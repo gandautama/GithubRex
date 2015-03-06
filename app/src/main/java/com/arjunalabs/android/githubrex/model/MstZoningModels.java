@@ -28,16 +28,16 @@ public class MstZoningModels {
     @SerializedName("result")
     String result;
 
-    public Data getData() {
+    public Data[] getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(Data[] data) {
         this.data = data;
     }
 
     @SerializedName("data")
-    public Data data;
+    public Data[] data;
 
     public class Data {
         public int getId() {

@@ -28,6 +28,7 @@ import com.arjunalabs.android.githubrex.model.GitHubApi;
 import com.arjunalabs.android.githubrex.model.Login;
 import com.arjunalabs.android.githubrex.model.Logout;
 import com.arjunalabs.android.githubrex.model.Model;
+import com.arjunalabs.android.githubrex.model.MstZoningModels;
 import com.arjunalabs.android.githubrex.model.Sites;
 import com.arjunalabs.android.githubrex.model.UploadPicture;
 import com.arjunalabs.android.githubrex.model.VersionApp;
@@ -574,6 +575,197 @@ public class MainActivity extends ActionBarActivity {
                         }
                 );
     }
+
+
+    private void doGetMstCategoryModelsList(final GitHubApi gitHubApi, final INext next) {
+        gitHubApi.oMstZoningModelsList(xBbSession)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<MstZoningModels>() {
+                               @Override
+                               public void call(MstZoningModels zoningModels) {
+                                   if (zoningModels != null) {
+                                       result.append("---------------------\n");
+                                       result.append("MstCategoryModelsList\n");
+                                       result.append("---------------------\n");
+                                       result.append("http code:" + zoningModels.getHttp_code() + "\n");
+                                       result.append("status:" + zoningModels.getResult() + "\n");
+
+                                       if (zoningModels.getData() != null) {
+                                           for (MstZoningModels.Data data : zoningModels.getData()) {
+                                               result.append("id  : " + data.getId() + "\n");
+                                               result.append("Name  : " + data.getName() + "\n");
+
+                                           }
+                                       }
+                                   }
+                               }
+                           }, new Action1<Throwable>() {
+                               @Override
+                               public void call(Throwable throwable) {
+                                   next.Error(throwable);
+                               }
+                           },
+                        new Action0() {
+                            @Override
+                            public void call() {
+                                next.Finish(gitHubApi);
+                            }
+                        });
+    }
+
+    private void doGetMstZoningModelsList(final GitHubApi gitHubApi, final INext next) {
+        gitHubApi.oModel(xBbSession)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Model>() {
+                               @Override
+                               public void call(Model model) {
+                                   if (model != null) {
+                                       result.append("---------------------\n");
+                                       result.append("        MODELS\n");
+                                       result.append("---------------------\n");
+                                       result.append("http code:" + model.getHttp_code() + "\n");
+                                       result.append("status:" + model.getResult() + "\n");
+
+                                       if (model.getData() != null) {
+                                           for (Model.Data data : model.getData()) {
+                                               result.append("model id            : " + data.getId() + "\n");
+                                               result.append("idMstMaterialGroup  : " + data.getIdMstMaterialGroup() + "\n");
+                                               result.append("idMstCategoryModels : " + data.getIdMstCategoryModels() + "\n");
+                                               result.append("idMstZoningModels   : " + data.getIdMstZoningModels() + "\n");
+                                               result.append("idMstTypeModels     : " + data.getIdMstTypeModels() + "\n");
+                                           }
+                                       }
+                                   }
+                               }
+                           }, new Action1<Throwable>() {
+                               @Override
+                               public void call(Throwable throwable) {
+                                   next.Error(throwable);
+                               }
+                           },
+                        new Action0() {
+                            @Override
+                            public void call() {
+                                next.Finish(gitHubApi);
+                            }
+                        });
+    }
+
+    private void doGetMstMaterialGroupList(final GitHubApi gitHubApi, final INext next) {
+        gitHubApi.oModel(xBbSession)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Model>() {
+                               @Override
+                               public void call(Model model) {
+                                   if (model != null) {
+                                       result.append("---------------------\n");
+                                       result.append("        MODELS\n");
+                                       result.append("---------------------\n");
+                                       result.append("http code:" + model.getHttp_code() + "\n");
+                                       result.append("status:" + model.getResult() + "\n");
+
+                                       if (model.getData() != null) {
+                                           for (Model.Data data : model.getData()) {
+                                               result.append("model id            : " + data.getId() + "\n");
+                                               result.append("idMstMaterialGroup  : " + data.getIdMstMaterialGroup() + "\n");
+                                               result.append("idMstCategoryModels : " + data.getIdMstCategoryModels() + "\n");
+                                               result.append("idMstZoningModels   : " + data.getIdMstZoningModels() + "\n");
+                                               result.append("idMstTypeModels     : " + data.getIdMstTypeModels() + "\n");
+                                           }
+                                       }
+                                   }
+                               }
+                           }, new Action1<Throwable>() {
+                               @Override
+                               public void call(Throwable throwable) {
+                                   next.Error(throwable);
+                               }
+                           },
+                        new Action0() {
+                            @Override
+                            public void call() {
+                                next.Finish(gitHubApi);
+                            }
+                        });
+    }
+
+    private void doGetMstGroupMaterialsList (final GitHubApi gitHubApi, final INext next) {
+        gitHubApi.oModel(xBbSession)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Model>() {
+                               @Override
+                               public void call(Model model) {
+                                   if (model != null) {
+                                       result.append("---------------------\n");
+                                       result.append("        MODELS\n");
+                                       result.append("---------------------\n");
+                                       result.append("http code:" + model.getHttp_code() + "\n");
+                                       result.append("status:" + model.getResult() + "\n");
+
+                                       if (model.getData() != null) {
+                                           for (Model.Data data : model.getData()) {
+                                               result.append("model id            : " + data.getId() + "\n");
+                                               result.append("idMstMaterialGroup  : " + data.getIdMstMaterialGroup() + "\n");
+                                               result.append("idMstCategoryModels : " + data.getIdMstCategoryModels() + "\n");
+                                               result.append("idMstZoningModels   : " + data.getIdMstZoningModels() + "\n");
+                                               result.append("idMstTypeModels     : " + data.getIdMstTypeModels() + "\n");
+                                           }
+                                       }
+                                   }
+                               }
+                           }, new Action1<Throwable>() {
+                               @Override
+                               public void call(Throwable throwable) {
+                                   next.Error(throwable);
+                               }
+                           },
+                        new Action0() {
+                            @Override
+                            public void call() {
+                                next.Finish(gitHubApi);
+                            }
+                        });
+    }
+
+    private void doGetMstMaterials(final GitHubApi gitHubApi, final INext next) {
+        gitHubApi.oModel(xBbSession)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Model>() {
+                               @Override
+                               public void call(Model model) {
+                                   if (model != null) {
+                                       result.append("---------------------\n");
+                                       result.append("        MODELS\n");
+                                       result.append("---------------------\n");
+                                       result.append("http code:" + model.getHttp_code() + "\n");
+                                       result.append("status:" + model.getResult() + "\n");
+
+                                       if (model.getData() != null) {
+                                           for (Model.Data data : model.getData()) {
+                                               result.append("model id            : " + data.getId() + "\n");
+                                               result.append("idMstMaterialGroup  : " + data.getIdMstMaterialGroup() + "\n");
+                                               result.append("idMstCategoryModels : " + data.getIdMstCategoryModels() + "\n");
+                                               result.append("idMstZoningModels   : " + data.getIdMstZoningModels() + "\n");
+                                               result.append("idMstTypeModels     : " + data.getIdMstTypeModels() + "\n");
+                                           }
+                                       }
+                                   }
+                               }
+                           }, new Action1<Throwable>() {
+                               @Override
+                               public void call(Throwable throwable) {
+                                   next.Error(throwable);
+                               }
+                           },
+                        new Action0() {
+                            @Override
+                            public void call() {
+                                next.Finish(gitHubApi);
+                            }
+                        });
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
