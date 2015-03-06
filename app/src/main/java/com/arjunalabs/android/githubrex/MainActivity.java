@@ -86,9 +86,9 @@ public class MainActivity extends ActionBarActivity {
 //                doUploadPicture(api, new INext() {
 //                    @Override
 //                    public void Finish(GitHubApi api) {
-                doGetSites(api, new INext() {
-                    @Override
-                    public void Finish(GitHubApi api) {
+//                doGetSites(api, new INext() {
+//                    @Override
+//                    public void Finish(GitHubApi api) {
                         doUploadReport(api, new INext() {
                             @Override
                             public void Finish(GitHubApi api) {
@@ -111,13 +111,13 @@ public class MainActivity extends ActionBarActivity {
                                 result.append("error, " + t.getMessage());
                             }
                         });
-                    }
-
-                    @Override
-                    public void Error(Throwable t) {
-                        result.append("error, " + t.getMessage());
-                    }
-                });
+//                    }
+//
+//                    @Override
+//                    public void Error(Throwable t) {
+//                        result.append("error, " + t.getMessage());
+//                    }
+//                });
 //
 //                    }
 //                    @Override
